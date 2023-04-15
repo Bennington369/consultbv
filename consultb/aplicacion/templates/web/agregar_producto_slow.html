@@ -1,0 +1,79 @@
+
+
+{% extends "base.html" %}
+
+{% load static %}
+
+
+
+{% block titulo %} Agregar express {% endblock %}
+{% block contenido %}
+
+<style>
+  label{
+  font-weight: bold;
+}
+
+.contenedorprd{
+    width: 60vw;
+    
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+@media(max-width:500px){
+    .contenedorprd{
+    width: 95vw;
+    
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+}
+
+</style>
+
+<div class="container contenedorprd">
+    <form action="" method="POST"  enctype="multipart/form-data" id="formulario">
+        {% csrf_token %}
+
+        <label for="producto">Nombre de lo que vendes:</label>
+        <input type="text" name="nombrearticulo" id="producto" class="form-control" maxlength="50" required>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea name="descripcionarticulo" id="descripcion" class="form-control" maxlength="250"></textarea>
+
+        <label for="precio">Precio:</label>
+        <input type="number" required  name="precioarticulo" id="precio" class="form-control" step="0.01" maxlength="14">
+
+        <label for="imagen">Imagen del artículo:</label>
+        <p>Para que tu imagen tenga la mejor vista en la página, la imagen deberia tener un tamaño de 500px X 350px y con fondo blanco.</p>
+        <input type="file" accept="image/*" name="imagenarticulo" id="imagen" class="form-control">
+
+        <button type="submit" class="btn btn-success" style="margin-top: 15px;">Guardar y agregar otro</button>
+ 
+
+        <a href="{%url 'ver_articulos' perfil.id %}" style="margin-top: 15px;" class="btn btn-secondary">Ver mis productos</a> 
+
+        <a href="{%url 'muestraperfil' perfil.id perfil.nomEstable %}" style="margin-top: 15px;" class="btn btn-primary">Salir</a>
+    </form>
+
+</div>
+
+<script>
+document.querySelector('#formulario').addEventListener('submit', function(e) {
+  const precio = document.querySelector('#precio').value;
+  const numEnteros = precio.split('.')[0].length;
+  const numDecimales = precio.split('.')[1] ? precio.split('.')[1].length : 0;
+  
+  if (numEnteros > 8 || (numEnteros === 8 && numDecimales > 2)) {
+    e.preventDefault();
+    alert('El precio debe tener como máximo 8 números enteros y 2 decimales.');
+  }
+});
+</script>
+
+
+{% endblock %}

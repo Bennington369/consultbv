@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+
+{% block titulo %} Articulos {% endblock %}
+{% block contenido %}
+
+<style>
+.contenedor-tarjetas {
+    display: flex;
+  justify-content: center;
+    flex-wrap: wrap;
+    margin: 30px;
+}
+
+.tarjeta{
+    background-color: white;
+    width: calc(100% / 5 - 20px); /* 5 columnas con 20px de margen entre ellas */
+    margin: 10px;
+    border-radius: 20px;
+    height: 450px;
+    
+}
+
+.imagentarjeta{
+    width: 100%;
+    height: 300px;
+
+}
+.imagenarticulo{
+    width: 100%;
+    height: 300px;
+    object-fit:contain;
+    transform: scale(1);
+    border-radius: 20px 20px 0 0;
+}
+.infotarjeta{
+    width: 100%;
+    height: 100px;
+
+}
+
+.botonwhatsapp{
+    width: 100vw;
+    height: 50px;
+    background-color: #128C7E;
+    text-decoration: none;
+font-size: 20px;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
+}
+.pwhatsapp{
+  position: fixed;
+    bottom: 50px;
+    margin: auto;
+    text-align: center;
+    font-size: large;
+    font-weight: 900;
+    color: rgb(14, 14, 14);
+ 
+   
+}
+.botonwhatsapp:hover {
+  background-color: #1BD741;
+  text-decoration: none; 
+  color: white;/* Cambia el color a tu preferencia */
+}
+.containerpo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 40vh;
+            margin: auto;
+        }
+        
+        .h1post {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ppost {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo {
+            width: 250px;
+            height: 200px;
+            margin-bottom: 1.5rem;
+        }
+        
+
+        @media screen and (max-width: 1050px) {
+          .tarjeta{
+    background-color: white;
+    width: calc(100% / 3 - 20px); /* 5 columnas con 20px de margen entre ellas */
+    margin: 10px;
+    border-radius: 20px;
+    height: 450px;
+    
+}
+        }
+
+
+        @media screen and (max-width: 768px) {
+            .h1post {
+                font-size: 2rem;
+            }
+            .ppost {
+                font-size: 1.2rem;
+            }
+            .logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 1rem;
+            }
+
+            .tarjeta{
+    background-color: white;
+    width: calc(100% / 2 - 20px); /* 5 columnas con 20px de margen entre ellas */
+    margin: 10px;
+    border-radius: 20px;
+    height: 450px;
+    
+}
+        }
+
+        
+
+        @media screen and (max-width: 500px) {
+
+
+            .tarjeta{
+    background-color: white;
+    width: calc(100% / 1 - 20px); /* 5 columnas con 20px de margen entre ellas */
+    margin: 10px;
+    border-radius: 20px;
+    height: 450px;
+    
+}
+
+.h1post {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ppost {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        }
+
+
+</style>
+{% if request.user == perfil.usuario %}
+<a href="{% url 'agregar_productos_slow' perfil.id%}" class="btn btn-success" style="font-weight: bold;"> AGREGAR PRODUCTOS</a>
+{% endif %}
+
+
+
+{% if articulo %}
+
+<div class="contenedor-tarjetas">
+
+{% for producto in articulo%}
+
+
+    {% if producto.imagen %}
+    
+    <div class="tarjeta">
+        <div class="imagentarjeta">
+        <img src="{{producto.imagen.url}}" class="imagenarticulo" alt="">
+    </div>
+        <hr>
+        <div class="infotarjeta" style="text-align: center;">
+            <h3 style="margin-left: 10px;">${{producto.precio}} MXN</h3>
+            <h6 style="margin-left: 10px;">{{producto.nombre}}</h6>
+
+
+            {% if request.user == producto.perfil.usuario %}
+            <a href="{% url 'editar_prd' producto.id%}" ><i class="fa-regular fa-pen-to-square"></i> Editar</a>
+            <a data-bs-toggle="modal" data-bs-target="#staticBackdrop1{{producto.id}}" style="cursor: pointer;" ><i class="fa-solid fa-trash"></i> Eliminar</a>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="staticBackdrop1{{producto.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content"  style="background-color: #454242;">
+
+            <div class="modal-body" >
+              Estas seguro de borrar el producto?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+              
+              <a href="{%url 'borrando_prd' producto.id %}" id="eliminar-comentario-link"class="btn btn-primary" >Si</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    {% else %}
+    <div class="tarjeta">
+        <div class="imagentarjeta">
+        <img src="{{producto.imagen_predeterminada.url}}" class="imagenarticulo" alt="">
+    </div>
+        <hr>
+        <div class="infotarjeta" style="text-align: center;">
+        <h3 style="margin-left: 10px;">${{producto.precio}} MXN</h3>
+        <h6 style="margin-left: 10px;">{{producto.nombre}}</h6>
+
+        {% if request.user == producto.perfil.usuario %}
+        <a  href="{% url 'editar_prd' producto.id%}"><i class="fa-regular fa-pen-to-square"></i> Editar</a>
+        <a data-bs-toggle="modal" data-bs-target="#staticBackdrop{{producto.id}}" style="cursor: pointer;" ><i class="fa-solid fa-trash"></i> Eliminar</a>
+        {% endif %}
+    </div>
+    </div>
+
+
+    
+    <div class="modal fade" id="staticBackdrop{{producto.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content"  style="background-color: #454242;">
+
+            <div class="modal-body" >
+              Estas seguro de borrar el producto?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+              
+              <a href="{%url 'borrando_prd' producto.id %}" id="eliminar-comentario-link"class="btn btn-primary" >Si</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+{% endfor %}
+
+
+</div>
+
+
+{% if request.user == perfil.usuario %}
+{% if perfil.whatsapp %}
+{% else %}
+<p class="pwhatsapp" >Para que pueda funcionar el botón de whatsapp, Por favor registra un número de whatsapp en el perfil de tu negocio. <a href="{% url 'editar' perfil.id %}">IR A EDITAR PERFIL</a></p>
+{% endif %}
+{% endif %}  
+ 
+<a href="https://wa.me/{{ perfil.whatsapp }}?text=Hola,%20quiero%20realizar%20un%20pedido" class="botonwhatsapp" target="_blank"><i class="fa-brands fa-whatsapp" style="font-weight: bold;font-size: 30px;"></i> ORDENAR POR WHATSAPP</a>
+
+{% else %}
+<div class="containerpo">
+  <img class="logo" src="{% static 'media/triste.png' %}">
+  <h1 class="h1post">No hay Productos</h1>
+  <p class="ppost">Lo sentimos, en este momento no hay productos disponibles.</p>
+</div>
+
+{% endif %}
+
+{% block footer %}
+{% endblock %}
+
+<script>
+
+$(document).ready(function() {
+    $('#editarcomentario').on('show.bs.modal', function(e) {
+      var comentario_id = $(e.relatedTarget).data('id');
+      $(this).find('input[name="comentario_id"]').val(comentario_id);
+    });
+  });
+</script>
+
+{% endblock %}

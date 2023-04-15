@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block titulo %} Resultados {% endblock %}
+
+{% block contenido %}
+<style>
+    .titulocat{
+        margin-top: 10px;
+    }
+</style>
+
+<div class="container"><h2 class="titulocat">Resultados de la categoria "{{categoria.nombre}}"</h2>
+    <hr></div>
+
+
+<div class="flexb">
+
+    {% if perfiles%}
+    {% for tienda in perfiles %}
+            <div class="slide-container swiper ">
+                <div class="slide-content">
+                    <div class="card-wrapper swiper-wrapper">
+                        <div class="cardb swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay"></span>
+    
+                                <div class="card-image">
+                                    <a href="{% url 'muestraperfil' tienda.id tienda.nomEstable %}">
+                                        
+                                        {% if tienda.imagen %}
+                                        <img src="{{tienda.imagen.url}}" alt="" class="card-img">
+                                        {% else %}
+                                        <img src="{{tienda.imagen_predeterminada.url}}" alt="" class="card-img">
+                                        {% endif %}
+                                        
+                                    
+                                    </a>
+                                </div>
+                            </div>
+    
+                            <div class="card-content">
+                                <h2 class="name">{{tienda.categoria}} "{{tienda.nomEstable}}"</h2>
+                                <p class="description">{{tienda.descripcion_Estable}}.</p>
+    
+                               <a href="{% url 'muestraperfil' tienda.id tienda.nomEstable %}"> <button class="button">Ver más</button></a>
+                            </div>
+                        </div>
+                     
+                    
+                   
+                     
+                   
+                  
+                  
+                   
+                    </div>
+                </div>
+    
+         
+            </div>
+            
+     
+    
+     
+ 
+    
+
+
+
+    {% endfor %}
+</div>
+    {% else %}
+<div class="container">
+    <div class="alert alert-danger" role="alert">
+    NO HAY ESTABLECIMIENTOS CON ESTE RESULTADO
+    </div>
+    
+    {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,617 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block titulo %} Inicio {% endblock %}
+
+{% block contenido %}
+
+
+<style>
+
+.container-clima{ 
+
+    
+align-items: center;
+border-radius: 1rem;
+vertical-align: middle;
+}
+@media(max-width:767px){
+.container-clima{
+    height: fit-content;
+}
+}
+.weather{
+width: 77%;
+}
+@media(max-width:767px){
+.weather
+{
+    width: 100%;
+}   
+}
+.card-clima{
+padding: 1rem;
+margin: 1.5rem 4vw;
+border-color: rgba(131, 13, 13, 0.22);
+box-shadow: 5px 6px 6px 2px #e9ecef;
+text-align: center;
+background-color: #ffffff;
+border-radius: 50px;
+color: #6f707d;
+font-family: 'Marcellus', serif;
+}
+@media(max-width:768px){
+.card-clima{
+    margin: 1.5rem;
+}
+}
+.title-clima{
+justify-content: center;
+position: absolute;
+left: 50%;
+-webkit-transform: translateX(-50%);
+transform: translateX(-50%)
+}
+.title-clima p{
+margin-bottom: 0.2rem;
+font-size: 1.6rem;
+}
+.temp{
+font-size: 2.6rem;
+margin-bottom: 1rem;
+}
+.header-clima{
+color: #dddddd;
+}
+.col-clima{
+padding: 0 0.2rem;
+}
+.icon-clima{
+align-self: flex-end;
+margin-right: -2.5rem;
+margin-top: -2rem;
+z-index: 99;
+}
+.icon-clima img{
+width: 7rem;
+}
+.icon-climaa,.title-clima{
+  color: rgba(0, 0, 0,.8);
+}
+
+
+</style>
+
+
+<div class="contenedorweb">
+<div class="container d-flex justify-content-center container-clima ">
+  <div class="weather">
+      <div class="row">
+          <div class=" col-md-12">
+              <div class="card card-clima">
+                  <span class="icon icon-clima"><img class="img-fluid img-clima" id="iconoanimado" src=""  /></span>
+                  <div class="title title-clima" ><p id="title-clima"></p></div>
+                  <div class="temp" id="temperatura" ></div>
+                      <div class="row">
+                          <div class="col-4 col-clima">
+                              <div class="header header-clima"><i class="fa-solid fa-circle-info icon-climaa"></i></div>
+                              <div class="value" id="temperatura-descripcion"></div>
+                          </div>
+                          <div class="col-4 col-clima">
+                              <div class="header header-clima"><i class="fa-solid fa-wind icon-climaa"></i></div>
+                              <div class="value" id="viento"></div>
+                          </div>
+                          <div class="col-4 col-clima">
+                              <div class="header header-clima"><i class="fa-regular fa-face-smile icon-climaa"></i></div>
+                              <div class="value" id="maxima"></div>
+                          </div>
+                      </div>
+                      
+              </div>
+          </div>
+
+
+  
+
+      </div>
+
+      </div>
+  </div>
+
+<hr class="center" style="width: 80%;margin: auto;">
+
+  <div class="container">
+
+   {% if perfiles %}
+   <div class="row">
+      <div class="col-lg-12 text-center my-2">
+
+             <h3 class="py-3">NEGOCIOS DESTACADOS</a></h3>
+         
+      </div>
+   </div>
+   {% endif %}
+
+
+
+      <div class="d-flex justify-content-center" style="flex-wrap:wrap ;">
+
+{% if perfiles %}
+        {% for per in perfiles %}
+        <div class="slide-container swiper " style="flex-basis: calc(33.33% - 10px);">
+          <div class="slide-content">
+              <div class="card-wrapper swiper-wrapper">
+                  <div class="cardb swiper-slide">
+                      <div class="image-content">
+                          <span class="overlay"></span>
+
+                          <div class="card-image">
+                              <a href="{% url 'muestraperfil' per.id per.nomEstable %}">
+                                 
+                                 
+                                 {% if per.imagen %}
+                                 <img src="{{per.imagen.url}}" alt="" class="card-img"></a>
+                                 {% else %}
+                                 <img src="{{per.imagen_predeterminada.url}}" alt="" class="card-img"></a>
+                                 {% endif %}
+                                 
+                          </div>
+                      </div>
+
+                      <div class="card-content">
+                          <h2 class="name">{{per.categoria}} "{{per.nomEstable}}</h2>
+                          <p class="description">{{per.descripcion_Estable}}.</p>
+
+                        <a href="{% url 'muestraperfil' per.id per.nomEstable %}"> <button class="button">Ver más</button></a>
+                      </div>
+                  </div>      
+              </div>
+          </div>
+        </div>
+        {% endfor %}
+{% endif%}               
+
+
+        </div>
+
+  </div>
+
+    <!-- <div class="portfolio-menu mt-2 mb-4">
+       <ul>
+          <li class="btn btn-outline-dark active" data-filter="*">Todo</li>
+          <li class="btn btn-outline-dark" data-filter=".gts">Restaurantes</li>
+          <li class="btn btn-outline-dark" data-filter=".lap">Servicios</li>
+          <li class="btn btn-outline-dark text" data-filter=".selfie">Celulares</li>
+       </ul>
+    </div>
+    <div class="portfolio-item row">
+       <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+          <a href="{% static 'media/jonny.jpg' %}" class="fancylight popup-btn" data-fancybox-group="light"> 
+          <img class="img-fluid" src="{% static 'media/jonny.jpg' %}" alt="">
+          </a>
+       </div>
+       <div class="item gts col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/pretty-girl-near-car_1157-16962.jpg" class="fancylight popup-btn" data-fancybox-group="light"> 
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/pretty-girl-near-car_1157-16962.jpg" alt="">
+          </a>
+       </div>
+       <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/blonde-tourist-taking-selfie_23-2147978899.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/blonde-tourist-taking-selfie_23-2147978899.jpg" alt="">
+          </a>
+       </div>
+       <div class="item gts col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/cute-girls-oin-studio_1157-18211.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/cute-girls-oin-studio_1157-18211.jpg" alt="">
+          </a>
+       </div>
+       <div class="item gts col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/stylish-pin-up-girls_1157-18451.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/stylish-pin-up-girls_1157-18451.jpg" alt="">
+          </a>
+       </div>
+       <div class="item gts col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/stylish-pin-up-girl_1157-18940.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/stylish-pin-up-girl_1157-18940.jpg" alt="">
+          </a>
+       </div>
+       <div class="item lap col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/digital-laptop-working-global-business-concept_53876-23438.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/digital-laptop-working-global-business-concept_53876-23438.jpg" alt="">
+          </a>
+       </div>
+       <div class="item lap col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-psd/set-digital-devices-screen-mockup_53876-76507.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-psd/set-digital-devices-screen-mockup_53876-76507.jpg" alt="">
+          </a>
+       </div>
+       <div class="item gts col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/young-brunette-woman-with-sunglasses-urban-background_1139-893.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/young-brunette-woman-with-sunglasses-urban-background_1139-893.jpg" alt="">
+          </a>
+       </div>
+       <div class="item lap col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-psd/laptop-digital-device-screen-mockup_53876-76509.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-psd/laptop-digital-device-screen-mockup_53876-76509.jpg" alt="">
+          </a>
+       </div>
+       <div class="item gts col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/young-woman-holding-pen-hand-thinking-while-writing-notebook_23-2148029424.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/young-woman-holding-pen-hand-thinking-while-writing-notebook_23-2148029424.jpg" alt="">
+          </a>
+       </div>
+       <div class="item gts col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-psd/female-fashion-concept_23-2147643598.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-psd/female-fashion-concept_23-2147643598.jpg" alt="">
+          </a>
+       </div>
+       <div class="item gts col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/girl-city_1157-16454.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/girl-city_1157-16454.jpg" alt="">
+          </a>
+       </div>
+       <div class="item gts col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/elegant-lady-with-laptop_1157-16643.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/elegant-lady-with-laptop_1157-16643.jpg" alt="">
+          </a>
+       </div>
+       <div class="item lap col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-psd/laptop-mock-up-lateral-view_1310-199.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-psd/laptop-mock-up-lateral-view_1310-199.jpg" alt="">
+          </a>
+       </div>
+       <div class="item gts col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/portrait-young-woman_1303-10071.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/portrait-young-woman_1303-10071.jpg" alt="">
+          </a>
+       </div>
+       <div class="item gts col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/beautiful-girl-near-wall_1157-16401.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/beautiful-girl-near-wall_1157-16401.jpg" alt="">
+          </a>
+       </div>
+       <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/woman-taking-photograph-her-boyfriend-enjoying-piggyback-ride-his-back_23-2147841613.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/woman-taking-photograph-her-boyfriend-enjoying-piggyback-ride-his-back_23-2147841613.jpg" alt="">
+          </a>
+       </div>
+       <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/girl-smiling-making-auto-photo-with-her-friends-around_1139-593.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/girl-smiling-making-auto-photo-with-her-friends-around_1139-593.jpg" alt="">
+          </a>
+       </div>
+       <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/multiracial-group-young-people-taking-selfie_1139-1032.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/multiracial-group-young-people-taking-selfie_1139-1032.jpg" alt="">
+          </a>
+       </div>
+       <div class="item lap col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/laptop-wooden-table_53876-20635.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/laptop-wooden-table_53876-20635.jpg" alt="">
+          </a>
+       </div>
+       <div class="item lap col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/business-woman-working-laptop_1388-67.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/business-woman-working-laptop_1388-67.jpg" alt="">
+          </a>
+       </div>
+       <div class="item lap col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-psd/group-people-holding-laptop-mockup-charity_23-2148069565.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-psd/group-people-holding-laptop-mockup-charity_23-2148069565.jpg" alt="">
+          </a>
+       </div>
+       <div class="item gts col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/portrait-young-cheerful-woman-headphones-sitting-stairs_1262-17488.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/portrait-young-cheerful-woman-headphones-sitting-stairs_1262-17488.jpg" alt="">
+          </a>
+       </div>
+       <div class="item gts col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/celebration-concept-close-up-portrait-happy-young-beautiful-african-woman-black-t-shirt-smiling-with-colorful-party-balloon-yellow-pastel-studio-background_1258-934.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/celebration-concept-close-up-portrait-happy-young-beautiful-african-woman-black-t-shirt-smiling-with-colorful-party-balloon-yellow-pastel-studio-background_1258-934.jpg" alt="">
+          </a>
+       </div>
+       <div class="item gts col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/pretty-woman-showing-arm-muscles_23-2148056021.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/pretty-woman-showing-arm-muscles_23-2148056021.jpg" alt="">
+          </a>
+       </div>
+       <div class="item lap col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/blank-colorful-adhesive-notes-against-wooden-wall-with-office-stationeries-laptop_23-2148052717.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/blank-colorful-adhesive-notes-against-wooden-wall-with-office-stationeries-laptop_23-2148052717.jpg" alt="">
+          </a>
+       </div>
+       <div class="item lap col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/happy-woman-having-video-call-using-laptop-office_23-2148056211.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/happy-woman-having-video-call-using-laptop-office_23-2148056211.jpg" alt="">
+          </a>
+       </div>
+       <div class="item lap col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-psd/laptop-mockup-table-with-plants_23-2147955548.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-psd/laptop-mockup-table-with-plants_23-2147955548.jpg" alt="">
+          </a>
+       </div>
+       <div class="item lap col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/blank-colorful-adhesive-notes-against-wooden-wall-with-office-stationeries-laptop_23-2148052717.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/blank-colorful-adhesive-notes-against-wooden-wall-with-office-stationeries-laptop_23-2148052717.jpg" alt="">
+          </a>
+       </div>
+       <div class="item lap col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-psd/woman-using-laptop-smartphone_53876-76350.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-psd/woman-using-laptop-smartphone_53876-76350.jpg" alt="">
+          </a>
+       </div>
+       <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/attractive-young-woman-with-curly-hair-takes-selfie-posing-looking-camera_8353-6636.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/attractive-young-woman-with-curly-hair-takes-selfie-posing-looking-camera_8353-6636.jpg" alt="">
+          </a>
+       </div>
+       <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/young-couple-taking-selfie-mobile-phone-against-blue-background_23-2148056292.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/young-couple-taking-selfie-mobile-phone-against-blue-background_23-2148056292.jpg" alt="">
+          </a>
+       </div>
+       <div class="item lap col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/close-up-blonde-woman-sitting-sofa-using-laptop-with-blank-white-screen_23-2148028738.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/close-up-blonde-woman-sitting-sofa-using-laptop-with-blank-white-screen_23-2148028738.jpg" alt="">
+          </a>
+       </div>
+       <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/group-happy-friends-taking-selfie-cellphone_23-2147859575.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/group-happy-friends-taking-selfie-cellphone_23-2147859575.jpg" alt="">
+          </a>
+       </div>
+       <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/joyful-pretty-girl-with-curly-hair-takes-selfie-mobile-phone_8353-6635.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/joyful-pretty-girl-with-curly-hair-takes-selfie-mobile-phone_8353-6635.jpg" alt="">
+          </a>
+       </div>
+       <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/attractive-young-woman-with-curly-hair-takes-selfie-posing-looking-camera_8353-6636.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/attractive-young-woman-with-curly-hair-takes-selfie-posing-looking-camera_8353-6636.jpg" alt="">
+          </a>
+       </div>
+       <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/multiracial-group-young-people-taking-selfie_1139-1032.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/multiracial-group-young-people-taking-selfie_1139-1032.jpg" alt="">
+          </a>
+       </div>
+       <div class="item selfie col-lg-3 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/two-smiling-girls-take-selfie-their-phones-posing-with-lollipops_8353-5600.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/two-smiling-girls-take-selfie-their-phones-posing-with-lollipops_8353-5600.jpg" alt="">
+          </a>
+       </div>
+       <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/female-friends-sitting-car-hood-taking-self-portrait_23-2147855623.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/female-friends-sitting-car-hood-taking-self-portrait_23-2147855623.jpg" alt="">
+          </a>
+       </div>
+       <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+          <a href="https://image.freepik.com/free-photo/two-smiling-girls-take-selfie-their-phones-posing-with-lollipops_8353-5600.jpg" class="fancylight popup-btn" data-fancybox-group="light">
+          <img class="img-fluid" src="https://image.freepik.com/free-photo/two-smiling-girls-take-selfie-their-phones-posing-with-lollipops_8353-5600.jpg" alt="">
+          </a>
+       </div>
+    </div> -->
+ 
+
+ {% if user.is_authenticated %}
+
+
+ {% endif %}
+
+
+  <!-- <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-8 col-lg-6">
+        
+        <div class="section_heading text-center wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+          <h3>Nuestro creativo <span> Equipo</span></h3>
+          <p>Apasionados por facilitar a las personas &amp; sus quehaceres diarios.</p>
+          <div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+          
+          <div class="advisor_thumb"><img src="{% static 'media/yo.jpg' %}" alt="">
+           
+            <div class="social-info"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a></div>
+          </div>
+         
+          <div class="single_advisor_details_info">
+            <h6>José Eduardo</h6>
+            <p class="designation">Desarrollador</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+         
+          <div class="advisor_thumb"><img src="{% static 'media/william.jpeg' %}" alt="">
+            
+            <div class="social-info"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+          </div>
+         
+          <div class="single_advisor_details_info">
+            <h6>William Pérez</h6>
+            <p class="designation">Desarrollador</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
+         
+          <div class="advisor_thumb"><img src="{% static 'media/martin.png' %}" alt="">
+           
+            <div class="social-info"><a href="https://www.facebook.com/damian.aragonortiz" target="_blank"><i class="fa fa-facebook"></i></a><a href="https://twitter.com/im_refill" target="_blank"><i class="fa fa-twitter"></i></a><a href="https://www.instagram.com/im_refill/" target="_blank"><i class="fa fa-instagram"></i></a></div>
+          </div>
+         
+          <div class="single_advisor_details_info">
+            <h6>Martin Damian</h6>
+            <p class="designation">Base de Datos</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
+          
+          <div class="advisor_thumb"><img src="{% static 'media/carlo.jpeg' %}" alt="">
+           
+            <div class="social-info"><a href="https://m.facebook.com/daniel.cruzhernandez.7374" target="_blank"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+          </div>
+         
+          <div class="single_advisor_details_info">
+            <h6>Carlos Daniel</h6>
+            <p class="designation">Marketing & Diseñador</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  
+</div>
+<script>
+
+
+  window.addEventListener('load',()=>{
+  
+    let temperatura = document.getElementById('temperatura')
+    let temperaturaDescripcion= document.getElementById('temperatura-descripcion')
+    let ubicacion = document.getElementById('title-clima')
+    let iconoanimado = document.getElementById('iconoanimado')
+    let viento = document.getElementById('viento')
+
+    let temperatura2 = document.getElementById('temperatura2')
+    let temperaturaDescripcion2= document.getElementById('temperatura-descripcion2')
+    let ubicacion2 = document.getElementById('title-clima2')
+    let iconoanimado2 = document.getElementById('iconoanimado2')
+    let viento2 = document.getElementById('viento2')
+    let maxima = document.getElementById('maxima')
+    let x1=2;
+
+    if(x1==2){
+
+      let long= -96.3545272
+            let lat= 18.4519242
+            let longt= -96.135
+            let latt= 18.2406
+
+            const url= `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&lang=es&units=metric&appid=7862fbc73a81518255f83ab27477a164`
+      
+            const url3= `https://api.openweathermap.org/data/2.5/weather?lat=${latt}&lon=${longt}&lang=es&units=metric&appid=7862fbc73a81518255f83ab27477a164`
+            fetch(url)
+              .then( response => {return response.json()})
+              .then( data => {
+                console.log(data)
+                let temp = Math.round(data.main.temp)
+                let ubi =data.name
+                let desc= data.weather[0].description 
+
+                temperatura.textContent = `${temp} °C`
+                temperaturaDescripcion.textContent = desc.toUpperCase()   
+                ubicacion.textContent = ubi
+                viento.textContent= `${Math.round(data.wind.speed)*3.6} k/h`
+                maxima.textContent= `${data.main.feels_like} °C`
+
+                switch(data.weather[0].main){
+                  case 'Clear':
+                  iconoanimado.src = "{% static 'animated/day.svg' %}"
+                  break;
+                  case 'Clouds':
+                  iconoanimado.src = "{% static 'animated/cloudy-day-1.svg' %}"
+                    break;
+                  case 'Thunderstorm':
+                  iconoanimado.src = "{% static 'animated/thunder.svg' %}"
+                    break;
+                  case 'Drizzle':
+                  iconoanimado.src = "{% static 'animated/rainy-2.svg' %}"
+                    break;
+                  default:
+                  iconoanimado.src = "{% static 'animated/cloudy-day-1.svg' %}"
+
+                }
+
+              })
+              .catch( error => {
+                console.log(error)
+              })
+
+
+              fetch(url3)
+              .then( response => {return response.json()})
+              .then( data => {
+                console.log(data)
+                let temp2 = Math.round(data.main.temp)
+                
+                let desc2= data.weather[0].description 
+                console.log(data.name)
+                temperatura2.textContent = `${temp2} °C`
+                temperaturaDescripcion2.textContent = desc2.toUpperCase()   
+                maxima2.textContent= `${data.main.feels_like} °C`
+                viento2.textContent= `${Math.round(data.wind.speed)*3.6} k/h`
+
+                switch(data.weather[0].main){
+                  case 'Clear':
+                  iconoanimado2.src = "{% static 'animated/day.svg' %}"
+                  break;
+                  case 'Clouds':
+                  iconoanimado2.src = "{% static 'animated/cloudy-day-1.svg' %}"
+                    break;
+                  case 'Thunderstorm':
+                  iconoanimado2.src = "{% static 'animated/thunder.svg' %}"
+                    break;
+                  case 'Drizzle':
+                  iconoanimado2.src = "{% static 'animated/rainy-2.svg' %}"
+                    break;
+                  case 'Clouds':
+                  iconoanimado2.src = "{% static 'animated/cloudy-day-1.svg' %}"
+                    break;
+                  case 'Clouds':
+                  iconoanimado2.src = "{% static 'animated/cloudy-day-1.svg' %}"
+                    break;
+                  default:
+                  iconoanimado2.src = "{% static 'animated/cloudy-day-1.svg' %}"
+
+                }
+
+              })
+              .catch( error => {
+                console.log(error)
+              })
+
+    }
+
+
+     });
+
+
+     $('.portfolio-menu ul li').click(function(){
+         	$('.portfolio-menu ul li').removeClass('active');
+         	$(this).addClass('active');
+         	
+         	var selector = $(this).attr('data-filter');
+         	$('.portfolio-item').isotope({
+         		filter:selector
+         	});
+         	return  false;
+         });
+         $(document).ready(function() {
+         var popup_btn = $('.popup-btn');
+         popup_btn.magnificPopup({
+         type : 'image',
+         gallery : {
+         	enabled : true
+         }
+         });
+         });
+</script>
+
+  {% endblock %}
+

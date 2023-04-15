@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+
+{% block titulo %} Agregar productos {% endblock %}
+{% block contenido %}
+<style>
+.cuadro{
+    width: 80vw;
+    height: 20vh;
+    background-color: white;
+    border-radius: 20px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+  }
+
+  .titulocat{
+    margin: 10px auto;
+  }
+
+  .h3cat {
+  text-align: center;
+
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+
+
+  color: #333;
+}
+
+  .flechacategoria{
+    font-size: 3rem;
+    margin-left: 10px;
+    position: absolute;
+    right: 10%;
+    transition: transform 0.3s ease-out;
+    cursor: pointer;
+  }
+
+  .flechacategoria:hover {
+    transform: scale(1.2);
+  }
+
+  p{
+    width: 70%;
+    text-align: center;
+   
+  }
+  a{
+    text-decoration: none;
+  }
+
+  @media(max-width:800px){
+    .cuadro{
+    width: 90vw;
+    height: 40vh;
+
+  }
+
+  p{
+    width: 80%;
+    text-align: justify;
+    font-size: .6rem;
+
+  
+  }
+  .flechacategoria{
+    font-size: 3rem;
+    margin-left: 10px;
+    position: absolute;
+    bottom: 10%;
+    transition: transform 0.3s ease-out;
+    cursor: pointer;
+  }
+
+
+  }
+</style>
+
+<div class="container">
+  <h2 class="titulocat">Agregación de productos</h2>
+  <hr>
+
+
+  <a href="{% url 'agregar_productos_fast' perfil.id%}">
+
+  <div class="cuadro">
+    <h3 class="h3cat">AÑADIR PRODUCTOS DE FORMA RÁPIDA</h3>
+    <p>Esta forma de agregar productos es conveniente cuando quieres que por medio del buscador encuentren más fácil tu negocio ya que, por ejemplo, si agregas que vendes "Pizza", cuando alguien busque "Pizza", entre los resultados estará tu negocio.</p>
+    <i class="fa-solid fa-arrow-right flechacategoria"></i>
+  </div></a>
+ 
+</div>
+
+<div class="container">
+    <a href="{% url 'agregar_productos_slow' perfil.id%}">
+  
+    <div class="cuadro">
+      <h3 class="h3cat">AGREGAR PRODUCTOS </h3>
+      <p>Esta forma de agregar productos es para mostrar al público en el perfil de tu negocio los productos que vendes.</p>
+      <i class="fa-solid fa-arrow-right flechacategoria"></i>
+    </div></a>
+   
+  </div>
+
+
+
+{% endblock %}

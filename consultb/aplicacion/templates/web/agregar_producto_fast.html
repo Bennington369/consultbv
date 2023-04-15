@@ -1,0 +1,54 @@
+
+{% extends "base.html" %}
+
+{% load static %}
+
+
+
+{% block titulo %} Agregar express {% endblock %}
+{% block contenido %}
+
+<style>
+
+.contenedorprd{
+    width: 60vw;
+    height: 20vh;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+@media(max-width:500px){
+    .contenedorprd{
+    width: 95vw;
+    height: 25vh;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+}
+label{
+    font-weight: bold;
+  }
+</style>
+
+
+<div class="container contenedorprd">
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <label for="producto">Nombre de lo que vendes:</label>
+        <input type="text" name="nombreproducto" maxlength="50" id="producto" class="form-control" required>
+
+        <button type="submit" class="btn btn-success" style="margin-top: 15px;">Guardar y agregar otro</button>
+        <a href="{%url 'muestraperfil' perfil.id perfil.nomEstable %}" style="margin-top: 15px;" class="btn btn-primary">Salir</a> 
+
+    </form> 
+
+</div>
+
+
+
+
+{% endblock %}

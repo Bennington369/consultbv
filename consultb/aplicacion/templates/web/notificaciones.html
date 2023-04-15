@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block contenido %}
+
+<style>
+
+
+.containerpo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 40vh;
+            margin: auto;
+        }
+        
+        .h1post {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ppost {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo {
+            width: 250px;
+            height: 200px;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .h1post {
+                font-size: 2rem;
+            }
+            .ppost {
+                font-size: 1.2rem;
+            }
+            .logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 1rem;
+            }
+        }
+
+    .notificacion{
+        width: 100%;
+        background-color: white;
+        border-radius: 10px;
+       
+    }
+
+    .btn{
+        width: 80%;
+        margin: 10px;
+        margin-left: 10%;
+        
+    }
+
+    .notificacion p{
+        font-size: 1.5rem;
+        padding: .5rem;
+    }
+
+    @media(max-width:500px){
+        .notificacion p{
+        font-size: 1rem;
+        padding: .5rem;
+    }
+    }
+</style>
+
+<div class="container">
+    <h1 style="margin-top: 10px;">Notificaciones</h1>
+    <hr>
+    
+
+    
+    {% if notifications %}
+
+        <form action="{% url 'marcar_todas_como_leidas' %}" method="post" >
+            {% csrf_token %}
+            <button class="btn btn-success" type="submit">Marcar todas como leídas</button>
+          </form>
+          {% endif %}
+       
+
+
+
+
+
+
+    {% if notifications %}
+
+    
+
+
+        {% for notification in notifications %}
+
+        {% if not notification.read %}
+        <div class="notificacion">
+            <p><strong>{{ notification.message }}  <a href="{{ notification.url }}">Ver</a></strong></p>
+           
+        </div>
+
+          
+                
+                    
+                {% else %}
+                <div class="notificacion">
+                    <p>{{ notification.message }} <a href="{{ notification.url }}">Ver</a></p>
+                    
+                </div>
+                {% endif %}
+                
+          
+        {% endfor %}
+    
+{% else %}
+
+<div class="containerpo" >
+    <img class="logo" src="{% static 'media/triste.png' %}">
+    <h1 class="h1post" >No hay notificaciones</h1>
+    <p class="ppost" >Lo sentimos, en este momento no hay notificaciones disponibles.</p>
+  </div>
+{% endif %}
+</div>
+
+
+
+
+
+{% endblock %}

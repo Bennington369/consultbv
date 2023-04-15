@@ -1,0 +1,1293 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% block titulo %} perfil {% endblock %}
+{% block contenido %}
+ 
+<style>
+
+.main-body {
+    padding: 15px;
+}
+.card {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1rem;
+}
+
+.gutters-sm {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+.gutters-sm>.col, .gutters-sm>[class*=col-] {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+.mb-3, .my-3 {
+    margin-bottom: 1rem!important;
+}
+
+.bg-gray-300 {
+    background-color: #e2e8f0;
+}
+.h-100 {
+    height: 100%!important;
+}
+.shadow-none {
+    box-shadow: none!important;
+}
+
+.map{
+  width: 100%;
+  height: 500px;
+    
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap');
+
+
+.comment-box{
+    
+    padding:5px;
+}
+
+
+
+.comment-area textarea{
+   resize: none; 
+        border: 1px solid #ad9f9f;
+        width: 120%;
+}
+
+
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #ffffff;
+    outline: 0;
+    box-shadow: 0 0 0 1px rgb(0, 255, 213) !important;
+    
+}
+
+.send {
+    color: #fff;
+    background-color: #ff0000;
+    border-color: #ff0000;
+}
+
+.send:hover {
+    color: #fff;
+    background-color: #f50202;
+    border-color: #f50202;
+}
+
+
+.rating {
+ display: flex;
+        margin-top: -10px;
+    flex-direction: row-reverse;
+    margin-left: -4px;
+        float: left;
+}
+
+.rating>input {
+    display: none
+}
+
+.rating>label {
+        position: relative;
+    width: 19px;
+    font-size: 25px;
+    color: #00ff9d;
+    cursor: pointer;
+}
+
+.rating>label::before {
+    content: "\2605";
+    position: absolute;
+    opacity: 0
+}
+
+.rating>label:hover:before,
+.rating>label:hover~label:before {
+    opacity: 1 !important
+}
+
+.rating>input:checked~label:before {
+    opacity: 1
+}
+
+.rating:hover>input:checked~label:before {
+    opacity: 0.4
+}
+
+/*COMENTARIOS*/
+
+@media(min-width:568px){
+    .end{
+        margin-left: auto;
+    }
+}
+
+@media(max-width:768px){
+    #post{
+        width: 100%;
+    }
+}
+#clicked{
+    padding-top: 1px;
+    padding-bottom: 1px;
+    text-align: center;
+    width: 100%;
+    background-color: #ecb21f;
+    border-color: #a88734 #9c7e31 #846a29;
+    color: black;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 13px; 
+}
+
+#profile{
+    background-color: unset;
+    
+} 
+
+#post{
+    margin: 10px;
+    padding: 6px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-align: center;
+    background-color: #ecb21f;
+    border-color: #a88734 #9c7e31 #846a29;
+    color: black;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 13px;
+    width: 50%;
+}
+
+
+.comments{
+    margin-top: 5%;
+    margin-left: 20px;
+}
+
+.darker{
+    border: 1px solid #ecb21f;
+    background-color: black;
+    float: right;
+    border-radius: 5px;
+    padding-left: 40px;
+    padding-right: 30px;
+    padding-top: 10px;
+}
+
+.comment{
+    border: 1px solid rgba(16, 46, 46, 1);
+    background-color: rgba(16, 46, 46, 0.973);
+    float: left;
+    border-radius: 5px;
+    padding-left: 40px;
+    padding-right: 30px;
+    padding-top: 10px;
+    
+}
+.comment h4,.comment span,.darker h4,.darker span{
+    display: inline;
+}
+
+.comment p,.comment span,.darker p,.darker span{
+    color: rgb(184, 183, 183);
+}
+
+h1,h4{
+    color: white;
+    font-weight: 500;
+    font-size: 17px;
+}
+label{
+    color: rgb(212, 208, 208);
+}
+
+
+#checkbx{
+    background-color: black;
+}
+
+#darker img{
+    margin-right: 15px;
+    position: static;
+}
+
+.stars i{
+
+font-size: 18px;
+color: rgb(40, 167, 69);
+}
+
+#estrellas{
+  display: none;
+}
+
+.startotal{
+
+  font-size: 12px;
+  color: rgb(40, 167, 69);
+  
+}
+
+
+
+
+
+.commentscm {
+  margin-top: 20px;
+}
+
+.commentcm {
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(to bottom, #f5f5f5, #e8e8e8);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.user-infocm {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.usernamecm {
+  margin-right: 10px;
+  font-weight: bold;
+  color:black;
+}
+
+.datecm {
+  color: black;
+  font-size: 14px;
+}
+
+.comment-bodycm {
+  margin-bottom: 10px;
+  color: black;
+}
+
+.like-buttoncm{
+  border-radius: 5px;
+  font-size: 12px;
+}
+ .like-buttoncmxd {
+  background-color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.like-buttoncmxd:hover {
+  background-color:#e2cdcd;
+ }
+
+
+ /* Establece el tamaño del control de direcciones en pantallas grandes */
+.mapboxgl-ctrl-directions.mapboxgl-ctrl-top-left {
+  width: 400px;
+  height: 400px;
+}
+
+/* Establece el tamaño del control de direcciones en pantallas pequeñas */
+
+.like-buttonre{
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+
+.obtenerruta {
+    background-color:  #2980b9;  /* Color de fondo del botón */
+    color: #fff; /* Color del texto */
+    width: 100%;
+    padding: 10px; /* Espacio de relleno interno */
+    border-radius: 5px; /* Borde redondeado */
+    font-size: 12px; /* Tamaño del texto */
+    border-color:rgb(52,142,170); ;
+    transition: all 0.3s ease; /* Transición suave */
+    cursor: pointer; /* Cursor al pasar sobre el botón */
+    margin-bottom: 5px;
+  }
+
+  .obtenerruta:hover {
+    background-color: #999; /* Cambio de color al pasar sobre el botón */
+  }
+
+</style>
+ {% if per %}
+
+
+
+
+ <div class="container__perfil container">
+   <div class="container">
+     <div class="main-body">
+
+     
+           <div class="row gutters-sm">
+             <div class="col-md-4 mb-3 cardfotoxd">
+               <div class="card ">
+                 <div class="card-body">
+                   <div class="d-flex flex-column align-items-center text-center">
+
+
+                    {% if per.imagen %}
+                    <img src="{{per.imagen.url}}" alt="Admin" class="rounded-circlexd" width="200">
+                    {% else %}
+                    <img src="{{per.imagen_predeterminada.url}}" alt="Admin" class="rounded-circlexd" width="200">
+                    {% endif %}
+                     
+
+
+                     <div class="mt-3">
+                       <h4 style="color: black;">{{per.categoria}} "{{per.nomEstable}}" </h4>
+                       <p><i class="fa-solid fa-thumbs-up" style="font-size: 1.2rem;"> {{per.likes.all.count}} </i></p>
+                       <p>Cantidad de vistas: {{per.visit_count}}</p>
+
+                       
+                 
+                       {{perfil2}} 
+                       
+                       
+                       <p></p>
+                       <p>
+
+                        <div class="d-flex justify-content-center">
+                                        
+                                    
+                          <div class="content text-center">
+                    
+                              <div class="ratings">
+                    
+                                  <span class="product-rating">
+                                    {% if promedio_estrellas %}
+                                    {{promedio_estrellas}}/5
+                                    {% else %}
+                                    Sin reseñas aún
+                                    {% endif %}
+                                    </span>
+
+                                    <br>
+                                    <div class="stars">
+                                      <span id="stars-rating"></span>
+                                    </div>
+                
+                    
+                                  <div class="rating-text">
+                                      
+                                      <span>{{res.count}} calificaciones</span>
+                    
+                                  </div>
+                                  
+                              </div>
+                              
+                          </div>
+                      
+                      </div>
+
+                       </p>
+
+          <div class="modal fade"  id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                   <div class="modal-content">
+                       <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" style="color:black ;">Crear reseña</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+           </div>
+
+           {% if rese%}
+           <div class="container" style="margin-top: 10px;"><div class="alert alert-danger">Lo sentimos pero ya has dado tu reseña, para volver a dar otra asegurate de eliminar la que ya habias hecho</div></div>
+           
+           
+           {% else %}
+           <form method="POST" class="modal-body container" id="resenia-form" action=""> 
+            {% csrf_token %}
+            <div class="col-10">
+              <div class="comment-box ml-2">
+                <h5 style="color:black ;">CALIFICA SEGUN TU EXPERIENCIA</h5>      
+                <div class="rating"> 
+                  <input type="radio" name="rating" value="5" id="star5"><label for="star5">☆</label>
+                  <input type="radio" name="rating" value="4" id="star4"><label for="star4">☆</label> 
+                  <input type="radio" name="rating" value="3" id="star3"><label for="star3">☆</label>
+                  <input type="radio" name="rating" value="2" id="star2"><label for="star2">☆</label>
+                  <input type="radio" name="rating" value="1" id="star1"><label for="star1">☆</label>
+                </div>  
+                <div class="comment-area">
+                  <input type="hidden" class="input__perfil perfilatitud" name="perfilxdd" value="{{per.id}}">
+                  <input type="tel" class="input__perfil perfilatitud" name="userxd" value="{{user.id}}">
+                  <textarea class="form-control" name="body" placeholder="Tienes algo que decir?" rows="5"></textarea>
+                </div>     
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary" id="submit-button">Enviar</button>
+            </div>
+          </form>
+          <div id="error-message" style="display:none;">Por favor, seleccione una estrella antes de enviar.</div>
+          
+           {% endif %}
+
+
+        
+                          </div>
+                        </div>
+                      </div>
+                      
+                      
+
+
+
+
+
+                      {% if user.is_authenticated  %}
+                      {% if request.user != per.usuario %}
+
+                      
+                        <a href="{% url 'dar_like' per.id %}"><button class="btn btn-primary">
+                        {% if tiene_like %}
+                        <i class="fa-solid fa-thumbs-up" style="color: black;" > </i>
+                        {% else %}
+                        <i class="fa-solid fa-thumbs-up" > </i>
+                        {% endif %}  
+                          
+                        
+                        </button></a>
+                        
+                        
+                    
+                 
+                       
+
+                   
+                       <a href="" id="emailHelp" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                      <button class="btn btn-outline-primary">Calificar</button></a>
+                      {% endif %}
+                      {% else %}
+
+
+                      <div class="modal fade" id="mginiciar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel" style="color: black;">AVISO</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="alert alert-warning" role="alert">
+                                Para Calificar o darle 'Me gusta' por favor inicia sesión
+                              </div> 
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                              <a href="{% url 'logear' %}" class="btn btn-primary">Iniciar sesion</a>
+                             
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <button class="btn btn-primary" data-bs-toggle="modal"  data-bs-target="#mginiciar"><i class="fa-solid fa-thumbs-up" style="margin-right: 4px;"></i>Me gusta</button>
+                      <button class="btn btn-outline-primary" data-bs-toggle="modal"  data-bs-target="#mginiciar">Calificar</button>
+                      {% endif %}
+                      {% if request.user == per.usuario %}
+                      <a href="{% url 'editar' per.id%}" class="btn btn-outline-primary"><i class="fa-solid fa-pen-to-square"></i> Editar perfil</a>
+                      <a href="{% url 'agregar_productos' per.id%}" class="btn btn-outline-primary"><i class="fa-solid fa-pen-to-square"></i> Agregar productos</a>
+                      {% endif %}
+
+                     </div>
+                   </div>
+                 </div>
+               </div>
+
+               <div class="card mt-3">
+                 <ul class="list-group list-group-flush">
+                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                     <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe mr-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>Página web</h6>
+                     {% if per.sitio_web == '' or per.sitio_web == 'None' %}
+                     <span class="text-secondary">-------------</span>
+                      {% else %}
+                      <span class="text-secondary"> {{per.sitio_web}}</span>
+                      
+                     {% endif %}
+                   </li>
+
+                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                     <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter mr-2 icon-inline text-info"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>Twitter</h6>
+                     {% if per.twitter == '' or per.twitter == 'None'%}
+                     <span class="text-secondary">-------------</span>
+                      {% else %}
+                      <span class="text-secondary"> <a href="https://www.twitter.com/{{ per.twitter }}" target="_blank">{{per.twitter}}</a></span>
+                      
+                     {% endif %}
+                   </li>
+                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                     <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram mr-2 icon-inline text-danger"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>Instagram</h6>
+                     {% if per.instagram == '' or per.instagram == 'None' %}
+                     <span class="text-secondary">-------------</span>
+                      {% else %}
+                      <span class="text-secondary"> <a href="https://www.instagram.com/{{ per.instagram }}" target="_blank">{{per.instagram}}</a></span>
+                      
+                     {% endif %}
+                   </li>
+                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                     <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook mr-2 icon-inline text-primary"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>Facebook</h6>
+                     {% if per.facebook == '' or per.facebook == 'None' %}
+                     <span class="text-secondary">-------------</span>
+                      {% else %}
+                      <span class="text-secondary"> <a href="https://www.facebook.com/{{ per.facebook }}" target="_blank">{{per.facebook}}</a></span>
+                    
+                     {% endif %}
+                   </li>
+                 </ul>
+               </div>
+
+
+
+           
+               <!-- Modal -->
+<div class="modal fade"  id="exampleModal222" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="color:black ;">Comentarios</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+
+       {% for co in com %}
+{% if co.parent_comment == None%}      
+       <div class="container" >
+
+
+        <section class="commentscm">
+          <div class="commentcm">
+            <div class="user-infocm">
+              <h3 class="usernamecm">{{co.autor}}</h3>
+              <span class="datecm" style="font-size: 10px;">{{co.create}}</span>
+            </div>
+            <p class="comment-bodycm">{{co.body}}</p>
+
+            {% if user.is_authenticated %}
+            <button class="like-buttoncm {% if request.user in co.likes.all %}btn-primary{% else %}btn-outline-primary{% endif %}" data-id="{{co.id}}" data-action="{% if request.user in co.likes.all %}dislike{% else %}like{% endif %}">
+              <span class="like-text">{% if request.user in co.likes.all %}<i class="fa-solid fa-thumbs-up"> </i>{% else %}<i class="fa-solid fa-thumbs-up"> </i>{% endif %}</span>
+              <span class="likes-count">{{co.likes.count}}</span>
+            </button>   
+
+                
+                  {% if request.user == co.autor %}
+
+
+                  
+
+                  <a href="{% url 'borrando_com' co.id  %}" style="color: #495057;"><i class="fa-solid fa-trash"></i></a>
+                  {% endif %}
+            
+            {% else %}
+
+
+            <a href="{% url 'logear' %}"><button class="like-buttoncmxd"  >
+              <i class="fa-solid fa-thumbs-up" style="margin-right: 4px;"> </i>Me gusta
+
+              <span>{{co.likes.count}}</span>
+            </button> </a>
+
+    
+            {% endif %}
+
+                    {% if co.replies.all%}
+                    <a href="{% url 'comentarios' co.negocio.id co.negocio.nomEstable %}#comentario-{{co.id}}" style="color: #495057;" class="eliminar-btn" > <i class="fa-solid fa-eye" style="margin-right: 4px;"></i >Ver respuestas</a>
+                  
+                    {% endif %}
+           
+                    {% if co.negocio.usuario in co.likes.all %}
+                    {% if co.negocio.usuario != co.autor %}
+                    <span style="padding-left: 5px;font-size: 12px;color: #495057;">   Al propietario le ha gustado este comentario</span>
+                    {% endif %}
+                    {% endif %}
+            
+          
+          </div>
+        </section>
+        </div>
+{% endif %}
+        {% endfor %}
+                      {% if come.count > 10 %}
+                      <a href="{% url 'comentarios' per.id per.nomEstable%}" class="btn btn-primary">Ver todos</a>
+                      {% else %}
+                      {% endif %}
+
+{% if com %}
+        {% else %}
+        <div class="container ">
+        <div class="alert alert-danger mt-10" role="alert">
+        NO HAY COMENTARIOS DE ESTE ESTABLECIMIENTO
+        </div>  
+         </div>
+         {% endif %}
+ 
+
+    <a href="{% url 'comentarios' per.id per.nomEstable%}" class="btn btn-success">Comentar</a>
+      </div>
+
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+               <div class="card mt-3">
+                 <ul class="list-group list-group-flush">
+
+                  <li class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                    <h6 class="mb-0">     
+                    <span class="text-secondary"> <a href="{% url 'comentarios' per.id per.nomEstable%}" data-bs-toggle="modal" data-bs-target="#exampleModal222">Ver Comentarios ({{come.count}})</a> </span>
+                  </li>
+
+
+                   <li class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                    <h6 class="mb-0">                          
+                     
+                      <span class="text-secondary"> <a href="{% url 'posts' per.id per.nomEstable%}" >Ver Publicaciones ({{pub.count}}) </a></span>
+                  </li>
+
+                  
+                  <li class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                    <h6 class="mb-0">                          
+                     
+                      <span class="text-secondary"> <a href="{% url 'ver_articulos' per.id%}" >Ver Productos ({{art.count}}) </a></span>
+                  </li>
+
+                 </ul>
+               </div>
+
+
+
+             </div>
+             <div class="col-md-8">
+               <div class="card mb-3">
+                 <div class="card-body">
+                   <div class="row">
+                     <div class="col-sm-3">
+                       <h6 class="mb-0"> Descripción:   
+ 
+                       
+                      
+                       </h6>
+                     </div>
+                     <div class="col-sm-9 text-secondary">
+                      <i class="fa-solid fa-info"></i> {{per.descripcion_Estable}}
+                     </div>
+                   </div>
+                   <hr>
+                   <div class="row">
+                     <div class="col-sm-3">
+                       <h6 class="mb-0">Correo electronico:</h6>
+                     </div>
+
+
+
+                     {% if per.correo_tienda == '' or per.correo_tienda == 'None' %}
+                     <div class="col-sm-9 text-secondary">
+                      -------------------
+                    </div>
+                     {% else %}
+
+                     <div class="col-sm-9 text-secondary">
+                      <i class="fa-solid fa-envelope correoperfil"></i> 
+                      <a href="mailto:{{per.correo_tienda}}" style="color: rgb(65, 61, 61);">{{per.correo_tienda}}</a>
+                     </div>
+
+          
+                     {% endif %}
+                   </div>
+                   <hr>
+                   <div class="row">
+                     <div class="col-sm-3">
+                       <h6 class="mb-0">Teléfono:</h6>
+                     </div>
+
+                      {% if per.telefono == '' or per.telefono == 'None' %}
+                      <div class="col-sm-9 text-secondary">
+                        -------------------
+                      </div>
+                     {% else %}
+
+                     <div class="col-sm-9 text-secondary">
+                      <i class="fa-solid fa-phone"></i>
+                      <a href="tel:{{per.telefono}}" style="color: rgb(65, 61, 61);">{{per.telefono}}</a>
+                    </div>
+
+    
+                     {% endif %}
+                   </div>
+                   <hr>
+                   <div class="row">
+                     <div class="col-sm-3">
+                       <h6 class="mb-0">Whatsapp:</h6>
+                     </div>
+                     {% if per.whatsapp == '' or per.whatsapp == 'None' %}
+                     <div class="col-sm-9 text-secondary">
+                      -------------------
+                    </div>
+
+                     {% else %}
+
+                     <div class="col-sm-9 text-secondary">
+                      <i class="fa-brands fa-whatsapp"></i>
+                      <a href="https://wa.me/{{per.whatsapp}}" target="_blank" style="color: rgb(65, 61, 61);"> {{per.whatsapp}}</a> 
+                 
+                    
+                   </div>
+
+         
+                     {% endif %}
+                   </div>
+                   <hr>
+                   <div class="row">
+                     <div class="col-sm-3">
+                       <h6 class="mb-0">Horario:</h6>
+                     </div>
+                     {% if per.lunes_entrada %}
+                     <div class="col-sm-9 text-secondary">
+                      <div class="col-sm-9 text-secondary">
+                        <i class="fa-solid fa-clock"></i> Lunes : {{per.lunes_entrada|date:"h:i A"}} - {{per.lunes_salida|date:"h:i A"}} </div>
+                     
+                     
+                          {% if per.martes_entrada %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-clock"></i> Martes : {{per.martes_entrada|date:"h:i A"}} - {{per.martes_salida|date:"h:i A"}}
+                          </div>
+                          {% else %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-door-closed"></i> Martes : Cerrado
+                          </div>
+                          {% endif %}
+
+                          {% if per.miercoles_entrada %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-clock"></i> Miercoles : {{per.miercoles_entrada|date:"h:i A"}}   - {{per.miercoles_salida|date:"h:i A"}}   
+                          </div>
+                          {% else %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-door-closed"></i> Miercoles : Cerrado
+                          </div>
+                          {% endif %}
+
+                          {% if per.jueves_entrada %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-clock"></i> Jueves : {{per.jueves_entrada|date:"h:i A"}}   - {{per.jueves_salida|date:"h:i A"}}   
+                          </div>
+                          {% else %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-door-closed"></i> Jueves : Cerrado
+                          </div>
+                          {% endif %}
+
+                          {% if per.viernes_entrada %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-clock"></i> Viernes : {{per.viernes_entrada|date:"h:i A"}}   - {{per.viernes_salida|date:"h:i A"}}   
+                          </div>
+                          {% else %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-door-closed"></i> Viernes : Cerrado
+                          </div>
+                          {% endif %}
+
+                          {% if per.sabado_entrada %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-clock"></i> Sabado : {{per.sabado_entrada|date:"h:i A"}}   - {{per.sabado_salida|date:"h:i A"}}   
+                          </div>
+                          {% else %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-door-closed"></i> Sabado : Cerrado
+                          </div>
+                          {% endif %}
+
+                          {% if per.domingo_entrada %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-clock"></i> Domingo : {{per.domingo_entrada|date:"h:i A"}}   - {{per.domingo_salida|date:"h:i A"}}   
+                          </div>
+                          {% else %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-door-closed"></i> Domingo : Cerrado
+                          </div>
+                          {% endif %}
+
+
+                          
+                     </div>
+                     {% else %}
+
+                          {% if per.every_allday == '1' %}
+
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-clock"></i> Abierto todos los dias 24/7
+                          </div>
+                          {% else %}
+
+                          <div class="col-sm-9 text-secondary">
+                            
+                            <div class="col-sm-9 text-secondary">
+                              <i class="fa-solid fa-door-closed"></i> Lunes : Cerrado
+                          </div>
+                            
+                            {% if per.martes_entrada %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-clock"></i> Martes : {{per.martes_entrada|date:"h:i A"}}   - {{per.martes_salida|date:"h:i A"}}   
+                          </div>
+                          {% else %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-door-closed"></i> Martes : Cerrado
+                          </div>
+                          {% endif %}
+
+                          {% if per.miercoles_entrada %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-clock"></i> Miercoles : {{per.miercoles_entrada|date:"h:i A"}}   - {{per.miercoles_salida|date:"h:i A"}}   
+                          </div>
+                          {% else %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-door-closed"></i> Miercoles : Cerrado
+                          </div>
+                          {% endif %}
+
+                          {% if per.jueves_entrada %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-clock"></i> Jueves : {{per.jueves_entrada|date:"h:i A"}}   - {{per.jueves_salida|date:"h:i A"}}   
+                          </div>
+                          {% else %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-door-closed"></i> Jueves : Cerrado
+                          </div>
+                          {% endif %}
+
+                          {% if per.viernes_entrada %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-clock"></i> Viernes : {{per.viernes_entrada|date:"h:i A"}}   - {{per.viernes_salida|date:"h:i A"}}   
+                          </div>
+                          {% else %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-door-closed"></i> Viernes : Cerrado
+                          </div>
+                          {% endif %}
+
+                          {% if per.sabado_entrada %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-clock"></i> Sabado : {{per.sabado_entrada|date:"h:i A"}}   - {{per.sabado_salida|date:"h:i A"}}   
+                          </div>
+                          {% else %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-door-closed"></i> Sabado : Cerrado
+                          </div>
+                          {% endif %}
+
+                          {% if per.domingo_entrada %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-clock"></i> Domingo : {{per.domingo_entrada|date:"h:i A"}}   - {{per.domingo_salida|date:"h:i A"}}   
+                          </div>
+                          {% else %}
+                          <div class="col-sm-9 text-secondary">
+                            <i class="fa-solid fa-door-closed"></i> Domingo : Cerrado
+                          </div>
+                          {% endif %}
+                          </div>
+                          {% endif %}
+
+                     {% endif %}
+
+
+
+
+
+                   </div>
+                   <hr>
+
+                 </div>
+               </div>
+
+
+                    
+          <input type="tel" class="input__perfil perfilatitud"  placeholder="Longitud"  id="longitud" value="{{per.longitud}}">
+  
+
+ 
+       
+          <input type="tel"  class="input__perfil perfilatitud" placeholder="Latitud"  id="latitud" value="{{per.latitud}}">
+ 
+
+
+          <button id="locateUserBtn" class="obtenerruta">Obtener ruta al establecimiento</button>
+
+               <div class="row gutters-sm">
+                 
+                 <div id="map" class="col-sm-12 col-lg-12 mb-3 map">
+                   <div class="card h-100">
+                     <div class="card-body">
+                       <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Cargando mapa...</i>Cargando mapa...</h6>
+                       <small>Cargando mapa...</small>
+                       <div class="progress mb-3" style="height: 5px">
+                         <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                       </div>
+                       <small>Cargando mapa...</small>
+                       <div class="progress mb-3" style="height: 5px">
+                         <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                       </div>
+                       <small>Cargando mapa...</small>
+                       <div class="progress mb-3" style="height: 5px">
+                         <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                       </div>
+                       <small>Cargando mapa...</small>
+                       <div class="progress mb-3" style="height: 5px">
+                         <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                       </div>
+                       <small>Cargando mapa...</small>
+                       <div class="progress mb-3" style="height: 5px">
+                         <div class="progress-bar bg-primary" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                       </div>
+
+                       
+      </div>
+                     </div>
+             
+                   </div>
+                 </div>
+
+
+                 <div class="contenedor-comentarios">
+                 <h3 class="seccion-comentarios text-center">RESEÑAS</h3>
+                 <hr>
+
+               
+                 {% if res %}
+
+
+                 {% for re in res %}
+                <div class="container ">
+    
+                
+                    <div class="row">
+                        <div class="col-sm-5  col-md-12 col-12 pb-4">
+                          
+                         
+                            <div class="comment mt-12  col-lg-12 text-justify">
+                              
+                                <h4>{{re.autor}}</h4>
+                                <span>- Hace {{re.create|timesince}}</span>
+                               <div class="stars2">
+
+                                
+                                <p class="tamanioletra"> Ha dado <b style="font-size: 17px;">{{re.estrellas}}</b><i class="fa fa-star startotal"></i> a este establecimiento</p>
+                   
+
+                              </div>
+                              <p><div class="parrafo-comentario">
+                                {{re.body}}
+                              </div></p>
+  
+                              {% if user.is_authenticated %}
+                              
+                              <p>
+                                
+                                
+ 
+
+                                  <button class="like-buttonre {% if request.user in re.likes.all %}btn-primary{% else %}btn-outline-primary{% endif %}" data-id="{{re.id}}" data-action="{% if request.user in re.likes.all %}dislike{% else %}like{% endif %}">
+                                    <span class="like-textre">{% if request.user in re.likes.all %}<i class="fa-solid fa-thumbs-up" > </i> {% else %}<i class="fa-solid fa-thumbs-up" > </i> {% endif %}</span>
+                                    <span class="likes-countre">{{re.likes.count}}</span>
+                                  </button>
+                                  
+                                 
+                                <!-- <i class="fa-solid fa-thumbs-up likes-countre"> </i>{{re.likes.all.count}}</p> -->
+                                {% if request.user == re.autor %}
+                                <a data-bs-toggle="modal" style="cursor: pointer;font: 1em sans-serif;"  data-bs-target="#staticBackdrop" ><i class="fa-solid fa-trash"></i> Eliminar</a>  
+
+                               
+                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
+                                  <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content"  style="background-color: #454242;">
+                        
+                                      <div class="modal-body" >
+                                        Estas seguro de borrar la reseña?
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                        
+                                 <a href="{% url 'borrando_res' re.id  %}" id="eliminar-comentario-link"class="btn btn-primary" >Si</a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                               
+
+
+                                <div class="modal fade" id="exampleModal123" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel" style="color: black;">AVISO</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <div class="alert alert-warning" role="alert">
+                                          Para dar like al comentario por favor inicia sesión
+                                        </div> 
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <a href="{% url 'logear' %}" class="btn btn-primary">Iniciar sesion</a>
+                                       
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+                              {% endif %}  
+                       
+                              {% else %}
+                     
+                            
+                              
+
+                              <p>
+                                
+                               
+                                <button type="button" class="btn btn-success boton-like" data-bs-toggle="modal" data-bs-target="#exampleModal12"><i class="fa-solid fa-thumbs-up" style="margin-right: 4px;"> </i>Me gusta <span style="font-size: 15px; color: #fffafa;">{{re.likes.all.count}}</span></button></p>
+                              {% endif %}
+                            </div>
+                        
+                           
+                            <div class="modal fade" id="exampleModal12" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel" style="color: black;">AVISO</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class="alert alert-warning" role="alert">
+                                      Para dar like al comentario por favor inicia sesión
+                                    </div> 
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <a href="{% url 'logear' %}" class="btn btn-primary">Iniciar sesion</a>
+                                   
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+
+                         
+
+                        </div>
+
+                    </div>
+                </div>
+       
+                {% endfor %}
+
+                {% else %}
+                <div class="alert alert-info ml-3 mr-3 text-center" role="alert">
+                  !AÚN NO HAY NINGUNA RESEÑA!
+                  </div>
+                {% endif %}
+              </div>
+               </div>
+ 
+ 
+ 
+             </div>
+           </div>
+ 
+         </div>
+     </div>
+
+
+
+
+   
+ </div>
+
+
+ <script>
+
+ 
+const form = document.querySelector('#resenia-form');
+const errorMessage = document.querySelector('#error-message');
+const submitButton = document.querySelector('#submit-button');
+
+
+
+
+$(document).on('click', '.like-buttoncm', function(e) {
+  e.preventDefault();
+  var button = $(this);
+  var postId = button.data('id');
+  var action = button.data('action');
+  $.ajax({
+    method: 'POST',
+    url: '/like_comentarioperfil/' + postId,
+    data: {
+      'csrfmiddlewaretoken': '{{ csrf_token }}',
+      'action': action
+    },
+    success: function(data) {
+      console.log(data);
+      button.find('.likes-count').text(data.likes_count);
+      var currentAction = button.data('action');
+      if (currentAction === 'like') {
+button.removeClass('btn-outline-primary');
+button.addClass('btn-primary');
+button.find('.like-text').html('<i class="far fa-thumbs-up"></i>');
+button.data('action', 'dislike');
+} else {
+button.removeClass('btn-primary');
+button.addClass('btn-outline-primary');
+button.find('.like-text').html('<i class="fas fa-thumbs-up"></i>');
+button.data('action', 'like');
+}
+    },
+    error: function(xhr, status, error) {
+      console.error(xhr.responseText);
+    }
+  });
+});
+
+
+$(document).on('click', '.like-buttonre', function(e) {
+  e.preventDefault();
+  var button = $(this);
+  var postIdd = button.data('id');
+  var action = button.data('action');
+  $.ajax({
+  method: 'POST',
+  url: '/like_resenia/' + postIdd,
+  data: {
+    'csrfmiddlewaretoken': '{{ csrf_token }}',
+    'action': action
+  },
+  success: function(data) {
+    
+    console.log(data.likes_countre); // agregar este console.log
+    button.find('.likes-countre').text(data.likes_countre);
+      var currentAction = button.data('action');
+      if (currentAction === 'like') {
+button.removeClass('btn-outline-primary');
+button.addClass('btn-primary');
+button.find('.like-textre').html('<i class="far fa-thumbs-up"></i>');
+button.data('action', 'dislike');
+} else {
+button.removeClass('btn-primary');
+button.addClass('btn-outline-primary');
+button.find('.like-textre').html('<i class="fas fa-thumbs-up"></i>');
+button.data('action', 'like');
+}
+    },
+    error: function(xhr, status, error) {
+      console.error(xhr.responseText);
+    }
+  });
+});
+
+
+
+function mostrarEstrellas(promedio_estrellas) {
+    let stars = '';
+    let full_stars = Math.floor(promedio_estrellas);
+    let half_stars = Math.round((promedio_estrellas - full_stars) * 2);
+    
+    // Agregar estrellas enteras
+    for (let i = 0; i < full_stars; i++) {
+      stars += '<i class="fa fa-star"></i>';
+    }
+    
+    // Agregar estrella media, si corresponde
+    if (half_stars === 1) {
+      stars += '<i class="fa fa-star-half"></i>';
+    }
+    
+    document.getElementById('stars-rating').innerHTML = stars;
+  }
+  
+  // Llamada a la función mostrarEstrellas con el promedio de estrellas
+  mostrarEstrellas(parseFloat("{{promedio_estrellas}}"));
+  
+
+
+
+  form.addEventListener('submit', (event) => {
+  // Previene el envío del formulario.
+  event.preventDefault();
+  
+  // Comprueba si alguna estrella está seleccionada.
+  const starLabels = document.querySelectorAll('.rating label');
+  let isStarSelected = false;
+  starLabels.forEach((starLabel) => {
+    const stars = document.querySelectorAll('.rating input[type="radio"]');
+    let isStarSelected = false;
+stars.forEach((star) => {
+  if (star && star.checked) {
+    isStarSelected = true;
+  }
+});
+  // Si ninguna estrella está seleccionada, muestra el mensaje de error.
+  if (!isStarSelected) {
+    errorMessage.style.display = 'block';
+    return;
+  }
+  
+  // Si una estrella está seleccionada, envía el formulario.
+  form.submit();
+});
+})
+
+ </script>
+
+
+ {% endif %}
+
+
+
+{% endblock %}

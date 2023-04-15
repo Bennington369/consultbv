@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block titulo %} Mapa {% endblock %}
+
+{% block contenido %}  
+
+<style>
+    .mapa{
+        width: 80vw;
+   height: 80vh;
+   margin: 20px auto;
+   border-radius: 10px;
+    }
+
+    @media screen and (max-width: 400px) {
+
+
+    .mapa{
+    width: 90vw;
+   height: 80vh;
+   margin: 10px auto;
+   border-radius: 10px;
+    }
+  }
+
+
+    .mapboxgl-ctrl-geocoder {
+    width: 50%;
+    min-width: 300px;
+  }
+
+  .mapboxgl-ctrl-geocoder--icon {
+
+   display:none;
+
+  }
+
+
+</style>
+
+<div id="map" class="mapa"></div>
+
+
+<script>
+
+var size = window.matchMedia("(max-width: 600px)");
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiYmVubmluZ3RvbiIsImEiOiJjbDI5a3JhaDYwMDVzM2NvNjJzOGt0bGZjIn0.4Yohr0bYdPLqpiekKEuGQw';
+
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [-96.35559824942904, 18.450132805098548],
+    zoom: 14
+});
+
+// Agregar control de búsqueda
+const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl,
+    marker: true,
+    placeholder: 'Ingrese su busqueda'
+});
+
+geocoder.on('result', function(e) {
+    var searchResult = e.result.geometry;
+    map.flyTo({
+        center: searchResult.coordinates,
+        zoom: 14
+    });
+    // Agregar un marcador en el punto de búsqueda
+    new mapboxgl.Marker()
+        .setLngLat(searchResult.coordinates)
+        .addTo(map);
+});
+
+// Agregar control de búsqueda al mapa
+if (size.matches) {
+    map.addControl(geocoder);
+} else {
+    map.addControl(geocoder, 'top-left');
+}
+
+
+// Agregar control de direcciones
+const directions = new MapboxDirections({
+    accessToken: mapboxgl.accessToken,
+    unit: 'metric',
+    language: 'es',
+    profile: 'mapbox/driving',
+    controls: {
+        inputs: size.matches ? {} : {
+            instructions: true,
+            inputs: true,
+            profileSwitcher: true
+        },
+        instructions: !size.matches
+    },
+    placeholderOrigin: 'Origen',
+    placeholderDestination: 'Destino'
+});
+
+if (size.matches) {
+    map.addControl(directions);
+} else {
+    map.addControl(directions, 'top-left');
+}
+
+// Agregar controles adicionales
+const nav = new mapboxgl.NavigationControl();
+const geolocate = new mapboxgl.GeolocateControl({
+    positionOptions: {
+        enableHighAccuracy: true
+    },
+    trackUserLocation: true
+});
+const fullscreen = new mapboxgl.FullscreenControl();
+const scale = new mapboxgl.ScaleControl({
+    maxWidth: 80,
+    unit: 'metric'
+});
+const attribution = new mapboxgl.AttributionControl({
+    compact: true
+});
+
+map.addControl(nav, 'top-right');
+map.addControl(geolocate, 'top-right');
+map.addControl(fullscreen, 'top-right');
+map.addControl(scale, 'bottom-left');
+map.addControl(attribution, 'bottom-right');
+
+
+
+
+
+
+</script>
+{% endblock %}
+
+
+  

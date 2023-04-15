@@ -1,0 +1,74 @@
+
+{% extends "base.html" %}
+
+{% block titulo %} Categorias {% endblock %}
+
+{% block contenido %} 
+<style>
+  .cuadro{
+    width: 80vw;
+    height: 20vh;
+    background-color: white;
+    border-radius: 20px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .titulocat{
+    margin: 10px auto;
+  }
+
+  .h3cat {
+  margin-right: 20px;
+  text-align: center;
+  flex-grow: 1;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  color: #333;
+}
+
+  .flechacategoria{
+    font-size: 3rem;
+    margin-left: 10px;
+    position: absolute;
+    right: 10%;
+    transition: transform 0.3s ease-out;
+    cursor: pointer;
+  }
+
+  .flechacategoria:hover {
+    transform: scale(1.2);
+  }
+</style>
+
+<div class="container">
+  <h2 class="titulocat">Categorias disponibles</h2>
+  <hr>
+
+  {% for categoria in cate %}
+
+  {% for per in perfiles %}
+  {% if per.categoria.id == categoria.id %}
+  <a href="{% url 'resultado_categoria' categoria.nombre%}">
+  {% endif %}
+ 
+
+
+    {% endfor %}
+  <div class="cuadro">
+    <h3 class="h3cat">{{categoria.nombre}}</h3>
+    <i class="fa-solid fa-arrow-right flechacategoria"></i>
+  </div></a>
+ 
+  {% endfor %}
+</div>
+
+
+
+{% endblock %}

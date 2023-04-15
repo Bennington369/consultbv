@@ -1,0 +1,447 @@
+{% extends "mapaedit.html" %}
+{% load static %}
+
+
+{% block contenido %}
+
+
+<div class="container offset-col-2 mt-5 xs-12 col-md-8 containerformperfil1 ">
+        
+  <form method="POST" action="" enctype="multipart/form-data" class="needs-validation" novalidate>
+     {% csrf_token %}
+    <div class="card mt-3">
+       <div class="card-header ">
+                        EDITAR - PERFIL 
+
+        </div>
+        
+        <div class="card-body containerformperfil">
+
+            <div class="sm-12">
+                <label class="form-label">Tipo de negocio</label>
+                <select class="form-select" name="categ" required>
+                  <option value="{{ ps.categoria.id }}">{{ ps.categoria.nombre }}</option>
+                  
+                  {% for neg in cate %}
+                  <option  value="{{ neg.id }}">{{ neg.nombre }}</option>
+                  {% endfor %}
+        
+              </select>
+     
+       
+           
+				  	</div>
+          <p><b>LOS UNICOS DATOS QUE SE PUEDEN SALTAR SON: SITIO WEB, TELEFONO Y WHATSAPP</b></p>
+              <div class="mb-3">
+                  <label class="form-label">Nombre:</label>
+                   <input type="text" class="form-control" value="{{ps.nomEstable}}" name="nombre" required>
+
+                    <div class="invalid-feedback">
+                      Coloca el nombre
+                    </div>
+              </div>
+
+              <div class="mb-3">
+                 <label class="form-label">Descripcion</label>
+                
+                  <input type="text" class="form-control texareaform" name="descripcion" id="" value="{{ps.descripcion_Estable}}"  maxlength="250" required>
+                  <div class="invalid-feedback">
+                    Coloca el resumen de no mayor a 30 letras
+              </div>
+
+              <div class="mb-3">
+                  <label class="form-label">Página web</label>
+                  <input type="text" class="form-control"  value="{{ps.sitio_web}}" name="web">
+              </div>
+ 
+
+
+              <div class="mb-3 longitudxdxd">
+                <label class="form-label ">Latitud</label>
+                <input id="latitud" type="text" class="form-control" name="lat" required value="{{ps.latitud}}" >
+
+                <input id="x" type="number" class="form-control" name="idprofile" required value="{{ps.id}}" >  
+                <div class="invalid-feedback">
+                  Marca el mapa
+                  </div>
+              </div>
+  
+              <div class="mb-3 longitudxdxd">
+                  <label class="form-label ">Longitud</label>
+                   <input id="longitud" type="text" class="form-control" name="lng" required value="{{ps.longitud}}">
+              </div>
+
+
+                            
+             
+    
+
+
+
+              <div class="mb-3">
+                  <label class="form-label">Télefono</label>
+                  <input type="text" class="form-control" name="telefono" pattern="[0-9]{10}"  placeholder="Coloca el número sin guión ni espacios" value="{{ps.telefono}}">
+                    <div class="invalid-feedback">
+                    Debes colocar 10 números sin espacios o guiones
+                    </div>
+               </div>
+
+             
+                            
+              <div class="mb-3 longitudxdxd ">
+                <label class="form-label ">Usuario</label>
+                <input type="text" class="form-control" name="userxd" required value="{{user.id}}"></div>
+
+                 <div class="mb-3">
+                    <label class="form-label">Whatsapp</label>
+                    <input type="text" class="form-control" pattern="[0-9]{10}" name="whats"  placeholder="Coloca el número sin guión ni espacios" value="{{ps.whatsapp}}">
+                    <div class="invalid-feedback">
+                      Debes puedes colocar 10 números sin espacios o guiones
+                    </div>
+                 </div>
+
+                 <div class="mb-3">
+                  <label class="form-label">Correo</label>
+                  <input type="text" class="form-control" name="correo" value="{{ps.correo_tienda}}">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Pág. Facebook</label>
+                <input type="text" class="form-control" name="facebook" value="{{ps.facebook}}">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Twitter</label>
+              <input type="text" class="form-control" name="twitter" value="{{ps.twitter}}">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Instagram</label>
+            <input type="text" class="form-control" name="instagram" value="{{ps.instagram}}">
+        </div>
+
+ 
+                 <div class="mb-3 ">
+        
+                   <label for="file" class="form-label" >Subir foto de perfil</label>
+                   <input accept="image/jpg,image/jpeg,image/png" class="form-control" type="file" name="img" id="img" required >
+                   <div class="invalid-feedback">
+                             Sube tu foto
+                   </div>
+                </div>
+
+
+                <hr> 
+                <div class="mb-3">
+                  HORARIO
+                </div>
+
+                {% if ps.every_allday == '1' %}
+                <div class="form-check">
+                  <input type="hidden" value='0' name="alldayxd">
+                  <input class="form-check-input" type="checkbox" value='1' checked name="alldayxd" id="check">
+                  <label class="form-check-label" for="check">
+                    Abierto 24/7 Todos los dias
+                  </label>
+                </div>
+                {% else %}
+
+                <div class="form-check">
+                  <input type="hidden" value='0' name="alldayxd">
+                  <input class="form-check-input" type="checkbox" value='1' name="alldayxd" id="check">
+                  <label class="form-check-label" for="check">
+                    Abierto 24/7 Todos los dias
+                  </label>
+                </div>
+
+                {% endif %}
+
+                <div class="accordion accordion-flush acordionxd " id="accordionxd">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                      <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        LUNES
+                      </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+                    
+
+                        <div class="mb-3">
+        
+                       <span  class="col-lg-2 col-sm-12 col-12" >Abierto de:</span>
+                        <input class="col-lg-3 col-sm-12 col-12 me-5" type="time" value="{{ps.lunes_entrada}}" name="hora1" id="hora1"  > 
+                      
+                        <span class="col-lg-2 col-sm-12 col-12" >Cerrado a las:</span>
+                          
+                        <input class="col-lg-3 col-sm-12 col-12" type="time" value="{{ps.lunes_salida}}" name="hora2" id="hora2" >
+                        </div>
+
+
+
+
+
+
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        MARTES
+                      </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+                        
+
+                        <div class="mb-3">
+        
+                          <span  class="col-lg-2 col-sm-12 col-12" >Abierto de:</span>
+                           <input class="col-lg-3 col-sm-12 col-12 me-5" type="time" value="{{ps.martes_entrada}}" name="hora3" id="hora3"  > 
+                         
+                           <span class="col-lg-2 col-sm-12 col-12" >Cerrado a las:</span>
+                             
+                           <input class="col-lg-3 col-sm-12 col-12" type="time" name="hora4" value="{{ps.martes_salida}}" id="hora4" >
+                           </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        MIERCOLES
+                      </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+
+                        <div class="mb-3">
+        
+                          <span  class="col-lg-2 col-sm-12 col-12" >Abierto de:</span>
+                           <input class="col-lg-3 col-sm-12 col-12 me-5" type="time" value="{{ps.miercoles_entrada}}" name="hora5" id="hora5" > 
+                         
+                           <span class="col-lg-2 col-sm-12 col-12" >Cerrado a las:</span>
+                             
+                           <input class="col-lg-3 col-sm-12 col-12" type="time" value="{{ps.miercoles_salida}}" name="hora6" id="hora6" >
+                           </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        JUEVES
+                      </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+
+                        <div class="mb-3">
+        
+                          <span  class="col-lg-2 col-sm-12 col-12" >Abierto de:</span>
+                           <input class="col-lg-3 col-sm-12 col-12 me-5" type="time" value="{{ps.jueves_entrada}}" name="hora7" id="hora7" > 
+                         
+                           <span class="col-lg-2 col-sm-12 col-12" >Cerrado a las:</span>
+                             
+                           <input class="col-lg-3 col-sm-12 col-12" type="time" name="hora8" id="hora8" value="{{ps.jueves_salida}}" >
+                           </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFive">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        VIERNES
+                      </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+
+                        <div class="mb-3">
+        
+                          <span  class="col-lg-2 col-sm-12 col-12" >Abierto de:</span>
+                           <input class="col-lg-3 col-sm-12 col-12 me-5" type="time" name="hora9" id="hora9" value="{{ps.viernes_entrada}}" > 
+                         
+                           <span class="col-lg-2 col-sm-12 col-12" >Cerrado a las:</span>
+                             
+                           <input class="col-lg-3 col-sm-12 col-12" type="time" name="hora10" value="{{ps.viernes_salida}}"  id="hora10">
+                           </div>
+      
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSix">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                        SABADO
+                      </button>
+                    </h2>
+                    <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+                        
+
+                        <div class="mb-3">
+        
+                          <span  class="col-lg-2 col-sm-12 col-12" >Abierto de:</span>
+                           <input class="col-lg-3 col-sm-12 col-12 me-5" type="time" value="{{ps.sabado_entrada}}" name="hora11" id="hora11" > 
+                         
+                           <span class="col-lg-2 col-sm-12 col-12" >Cerrado a las:</span>
+                             
+                           <input class="col-lg-3 col-sm-12 col-12" type="time" name="hora12" value="{{ps.sabado_salida}}" id="hora12"  >
+                           </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSeven">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                        DOMINGO
+                      </button>
+                    </h2>
+                    <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+
+                        <div class="mb-3">
+        
+                          <span  class="col-lg-2 col-sm-12 col-12" >Abierto de:</span>
+                           <input class="col-lg-3 col-sm-12 col-12 me-5" type="time" value="{{ps.domingo_entrada}}" name="hora13" id="hora13" > 
+                         
+                           <span class="col-lg-2 col-sm-12 col-12" >Cerrado a las:</span>
+                             
+                           <input class="col-lg-3 col-sm-12 col-12" type="time" value="{{ps.domingo_salida}}" name="hora14" id="hora14" >
+                           </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+
+
+
+
+                  
+
+                   
+
+                 
+
+
+
+        </div>
+                    
+         <div class="card-footer">
+          <p class="p__mapa"><b> NO OLVIDES MARCAR TU UBICACION</b></p>         
+            <button type="submit" class="btn btn-success ml-2">ACTUALIZAR</button>
+            <a class="btn btn-danger" href="{% url 'inicio' %}">CANCELAR</a>                       
+             
+                    
+          </div>
+    </div>
+  </form>
+</div>
+
+    <div class="container  offset-col-2 mb-5">
+      <p><b> Por favor, arrastra el marcador azul en donde está ubicado tu negocio ya que si no lo haces no se guardará tu registro </b></p> 
+      
+      <div class="map" id="map"></div>
+
+   
+   </div>
+
+
+   <script>
+
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+  const check= document.getElementById('flexCheckDefault')
+  const hora1 = document.getElementById('hora1')
+  const hora2 = document.getElementById('hora2')
+  const hora3 = document.getElementById('hora3')
+  const hora4 = document.getElementById('hora4')
+  const hora5 = document.getElementById('hora5')
+  const hora6 = document.getElementById('hora6')
+  const hora7 = document.getElementById('hora7')
+  const hora8 = document.getElementById('hora8')
+  const hora9 = document.getElementById('hora9')
+  const hora10 = document.getElementById('hora10')
+  const hora11 = document.getElementById('hora11')
+  const hora12 = document.getElementById('hora12')
+  const hora13 = document.getElementById('hora13')
+  const hora14 = document.getElementById('hora14')
+  const accordionxd = document.getElementById('accordionxd')
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+
+
+window.addEventListener('DOMContentLoaded',()=>{
+
+  if(check.checked == true){
+
+    accordionxd.style.display = 'none';
+  }
+})
+
+check.addEventListener('change',function(event){
+  if (event.target.checked){
+
+    
+  accordionxd.style.display = 'none';
+
+  hora1.value = '';
+  hora2.value = '';
+  hora3.value = '';
+  hora4.value = '';
+  hora5.value = '';
+  hora6.value = '';
+  hora7.value = '';
+  hora8.value = '';
+  hora9.value = '';
+  hora10.value = '';
+  hora11.value = '';
+  hora12.value = '';
+  hora13.value = '';
+  hora14.value = '';
+
+  console.log(hora1.value)
+  }else{
+    accordionxd.style.display = 'block';
+  }
+
+})
+
+
+   </script>
+
+
+
+
+{% endblock %}

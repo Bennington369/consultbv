@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block titulo %} Resultados {% endblock %}
+{% block contenido %}
+
+
+
+<hr>
+<h3 class="h2resultado">RESULTADOS DE LA BUSQUEDA DE: "{{query}}"</h3>
+<hr>
+
+
+<div class="flexb">
+
+    {% if tiendas %}
+    {% for tienda in tiendas %}
+            <div class="slide-container swiper ">
+                <div class="slide-content">
+                    <div class="card-wrapper swiper-wrapper">
+                        <div class="cardb swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay"></span>
+    
+                                <div class="card-image">
+                                    <a href="{% url 'muestraperfil' tienda.id tienda.nomEstable %}">
+                                        
+                                        {% if tienda.imagen %}
+                                        <img src={{tienda.imagen.url}} class="card-img" >
+                                        {% else %}
+                                        <img src={{tienda.imagen_predeterminada.url}} class="card-img" >
+                                        {% endif %}
+                                    
+                                    </a>
+                                </div>
+                            </div>
+    
+                            <div class="card-content">
+                                <h2 class="name">{{tienda.categoria}} "{{tienda.nomEstable}}"</h2>
+                                <p class="description">{{tienda.descripcion_Estable}}.</p>
+    
+                               <a href="{% url 'muestraperfil' tienda.id tienda.nomEstable %}"> <button class="button">Ver más</button></a>
+                            </div>
+                        </div>
+                     
+                    
+                   
+                     
+                   
+                  
+                  
+                   
+                    </div>
+                </div>
+    
+         
+            </div>
+            
+     
+    
+     
+ 
+    
+
+
+
+    {% endfor %}
+</div>
+    {% else %}
+<div class="container">
+    <div class="alert alert-danger" role="alert">
+    NO HAY ESTABLECIMIENTOS CON ESTE RESULTADO
+    </div>
+    <p>Asegurate de haber escrito bien tu busqueda</p>
+    {% endif %}
+    </div>
+    
+
+</div>
+
+
+
+{% endblock %}

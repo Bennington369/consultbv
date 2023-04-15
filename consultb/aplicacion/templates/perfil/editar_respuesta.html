@@ -1,0 +1,49 @@
+
+{% extends "base.html" %}
+
+{% load static %}
+
+
+
+{% block titulo %} Editar respuesta{% endblock %}
+{% block contenido %}
+
+<style>
+.contenedorprd{
+    width: 60vw;
+   
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+@media(max-width:500px){
+    .contenedorprd{
+    width: 95vw;
+
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+}
+label{
+    font-weight: bold;
+  }
+</style>
+
+
+<div class="container contenedorprd">
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <label for="producto">Edicion de Comentario:</label>
+        <textarea  name="comentario" rows="4" class="form-control" placeholder="Coloca tu comentario">{{comentario.body}}</textarea>
+
+        <button type="submit" class="btn btn-success" style="margin-top: 15px;">Guardar</button>
+        <a href="{%url 'comentarios' comentario.negocio.nomEstable %}#comentario-{{comentario_padre.id}}" style="margin-top: 15px;" class="btn btn-primary">Salir</a> 
+
+    </form> 
+
+</div>
+{% endblock %}

@@ -1,0 +1,326 @@
+{% extends "base.html" %}
+
+{% block titulo %} Estadisticas {% endblock %}
+
+{% block contenido %}  
+<style>
+    ul { list-style-type: none; }
+    
+    a {
+    color: #b63b4d;
+    text-decoration: none;
+    }
+    
+    
+    .accordion {
+     width: 80vw;
+    
+   margin: 5vh auto;
+    background: #FFF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 0px;
+    }
+    
+    .accordion .link {
+    cursor: pointer;
+    display: block;
+    padding: 15px 15px 15px 42px;
+    color: #4D4D4D;
+    font-size: 14px;
+    font-weight: 700;
+    border-bottom: 1px solid #CCC;
+    position: relative;
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    }
+    
+    .accordion li:last-child .link { border-bottom: 0; }
+    
+    .accordion li i {
+    position: absolute;
+    top: 16px;
+    left: 12px;
+    font-size: 18px;
+    color: #595959;
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    }
+    
+    .accordion li i.fa-chevron-down {
+    right: 12px;
+    left: auto;
+    font-size: 16px;
+    }
+    
+    .accordion li.open .link {     color: #AA00FF; }
+    
+    .accordion li.open i { color: #AA00FF;}
+    
+    .accordion li.open i.fa-chevron-down {
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    }
+    
+    
+    .submenu {
+    display: none;
+    background: #444359;
+    font-size: 14px;
+    }
+    
+    .submenu li { border-bottom: 1px solid #4b4a5e; }
+    
+    .submenu a {
+    display: block; 
+    text-decoration: none;
+    color: #d9d9d9;
+    padding: 12px;
+    padding-left: 42px;
+    -webkit-transition: all 0.25s ease;
+    -o-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+    }
+    
+    .submenu a:hover {
+    background: #b63b4d;
+    color: #FFF;
+    }
+    
+    </style>
+    
+    <div class="container">
+        
+       <ul id="accordion" class="accordion">
+         <li>
+          
+           <div class="link"><i class="fa fa-laptop"></i>Perfiles a los que has dado 'Me gusta'<i class="fa fa-chevron-down"></i></div>
+         
+           
+           <ul class="submenu">
+
+
+              {% if perfiles %}
+              {% for per in perfiles %}
+
+              <li><a href="{% url 'muestraperfil' per.id per.nomEstable %}">{{per.categoria.nombre}} "{{per.nomEstable}}"</a></li>
+
+               {% endfor %}
+              {% else %}
+              <li><a href="">No hay actividad</a></li>
+              {% endif %}
+
+             
+           </ul>
+         </li>
+         <li>
+           <div class="link"><i class="fa fa-tv"></i>Publicaciones a las que has dado 'Me gusta'<i class="fa fa-chevron-down"></i></div>
+           <ul class="submenu">
+
+            {% if publicaciones %}
+            {% for post in publicaciones %}
+            <li><a href="{%url 'posts' post.perfil.id post.perfil.nomEstable%}">
+              {% if post.body %}
+              {{post.body|slice:":150"}}
+              {% else %}
+              Es una imagen la publicación
+              {% endif %}
+            
+            </a></li>
+            {% endfor %}
+            {% else %}
+            <li><a href="">No hay actividad</a></li>
+            {% endif %}
+
+           </ul>   
+         </li>
+         <li>
+           <div class="link"><i class="fa fa-mobile"></i>Comentarios a los que has dado 'Me gusta'<i class="fa fa-chevron-down"></i></div>
+           <ul class="submenu">
+            {% if comentarios %}
+            {% for com in comentarios %}
+            <li><a href="{%url 'comentarios' com.negocio.id com.negocio.nomEstable%}">"{{com.body|slice:":150"}}"</a></li>
+            {% endfor %}
+            {% else %}
+            <li><a href="">No hay actividad</a></li>
+            {% endif %}
+
+           </ul>
+         </li>
+         <li>
+           <div class="link"><i class="fa fa-globe"></i>Reseñas a las que has dado 'Me gusta'<i class="fa fa-chevron-down"></i></div>
+           <ul class="submenu">
+            {% if resenias %}
+            {% for rese in resenias %}
+            <li><a href="{%url 'muestraperfil' rese.negocio.id rese.negocio.nomEstable%}">
+              
+              {% if rese.body %}
+              "{{rese.body|slice:":150"}}" con {{rese.estrellas}}☆
+              {% else %}
+              Has dado like a una reseña con {{rese.estrellas}}☆
+              {% endif %}
+            
+          
+          
+          </a></li>
+            {% endfor %}
+            {% else %}
+            <li><a href="">No hay actividad</a></li>
+            {% endif %}
+
+           </ul>
+         </li>
+
+         <li>
+          <div class="link"><i class="fa fa-globe"></i>Publicaciones que has hecho<i class="fa fa-chevron-down"></i></div>
+          <ul class="submenu">
+            {% if publicacionesxd %}
+            {% for pub in publicacionesxd %}
+            <li><a href="{%url 'posts' pub.perfil.id pub.perfil.nomEstable%}">
+              
+              {% if pub.body %}
+              "{{pub.body|slice:":150"}}" el dia {{pub.create}}
+              {% else %}
+              Has subido una foto el dia {{pub.create}}
+              {% endif %}
+              
+            
+            
+            </a></li>
+            {% endfor %}
+            {% else %}
+            <li><a href="">No hay actividad</a></li>
+            {% endif %}
+
+         
+          </ul>
+        </li>
+
+        
+
+
+        
+        <li>
+          <div class="link"><i class="fa fa-globe"></i>Comentarios que has hecho<i class="fa fa-chevron-down"></i></div>
+          <ul class="submenu">
+            {% if comentariosxd %}
+            {% for comen in comentariosxd %}
+            <li><a href="{% url 'comentarios' comen.negocio.id comen.negocio.nomEstable%}">"{{comen.body|slice:":150"}}" el dia {{comen.create}}</a></li>
+            {% endfor %}
+            {% else %}
+            <li><a href="">No hay actividad</a></li>
+            {% endif %}
+
+         
+          </ul>
+        </li>
+
+        
+        <li>
+          <div class="link"><i class="fa fa-globe"></i>Reseñas que has hecho<i class="fa fa-chevron-down"></i></div>
+          <ul class="submenu">
+            {% if reseniasxd %}
+            {% for reseni in reseniasxd %}
+            <li><a href="{%url 'muestraperfil' reseni.negocio.id reseni.negocio.nomEstable%}">
+              
+              {% if reseni.body %}
+              "{{reseni.body|slice:":150"}}" con {{reseni.estrellas}}☆  el dia {{reseni.create}}
+              {% else %}
+              Has calificado con {{reseni.estrellas}}☆  el dia {{reseni.create}}
+              {% endif %}
+              
+            
+            
+            </a></li>
+            {% endfor %}
+            {% else %}
+            <li><a href="">No hay actividad</a></li>
+            {% endif %}
+
+         
+          </ul>
+        </li>
+
+        <li>
+          <div class="link"><i class="fa fa-globe"></i>Perfiles que has visitado<i class="fa fa-chevron-down"></i></div>
+          <ul class="submenu">
+            {% if visitados %}
+            {% for visi in visitados %}
+            <li><a href="{% url 'muestraperfil' visi.id visi.nomEstable %}"> {{visi.categoria.nombre}} "{{visi.nomEstable}}"</a></li>
+            {% endfor %}
+            {% else %}
+            <li><a href="">No hay actividad</a></li>
+            {% endif %}
+
+         
+          </ul>
+        </li>
+
+
+        <li>
+          <div class="link"><i class="fa fa-globe"></i>Perfiles que has creado<i class="fa fa-chevron-down"></i></div>
+          <ul class="submenu">
+            {% if perfilesxd %}
+            {% for perfi in perfilesxd %}
+            <li><a href="{% url 'muestraperfil' perfi.id perfi.nomEstable %}">{{perfi.categoria.nombre}} "{{perfi.nomEstable}}" el dia {{perfi.create}}</a></li>
+            {% endfor %}
+            {% else %}
+            <li><a href="">No hay actividad</a></li>
+            {% endif %}
+
+         
+          </ul>
+        </li>
+
+       </ul>
+       
+        </div>
+
+
+
+        <div class="container">
+          <p>Informacion</p>
+        </div>
+ 
+
+        
+    
+    {% endblock %}
+    {% block script %}
+    <script>
+    $(function() {
+      var Accordion = function(el, multiple) {
+         this.el = el || {};
+         this.multiple = multiple || false;
+          
+         var links = this.el.find('.link');
+    
+         links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
+      }
+    
+      Accordion.prototype.dropdown = function(e) {
+         var $el = e.data.el;
+            $this = $(this),
+            $next = $this.next();
+    
+         $next.slideToggle();
+         $this.parent().toggleClass('open');
+    
+         if (!e.data.multiple) {
+            $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
+         };
+      }  
+    
+      var accordion = new Accordion($('#accordion'), false);
+    });
+    </script>
+
+
+{% endblock %}
+
+
+  

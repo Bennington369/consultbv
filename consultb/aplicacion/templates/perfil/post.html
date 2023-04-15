@@ -1,0 +1,579 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block titulo %} Publicaciones {% endblock %}
+{% block contenido %}
+<style>
+
+.containerpo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 40vh;
+            margin: auto;
+        }
+        
+        .h1post {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ppost {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo {
+            width: 250px;
+            height: 200px;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .h1post {
+                font-size: 2rem;
+            }
+            .ppost {
+                font-size: 1.2rem;
+            }
+            .logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 1rem;
+            }
+        }
+
+@media (max-width:600px){
+    
+.infopost{
+    font-size: 2rem;
+ 
+} 
+}
+    .post {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+
+    }
+
+    .feeds {
+        width: 100%;
+    }
+
+    .post-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .post-header img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 1rem;
+    }
+
+    .post-author {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .post-date {
+        margin: 0;
+        font-size: 0.8rem;
+        color: #999;
+    }
+
+    .post-content p {
+        margin-bottom: 1rem;
+        font-size: 1rem;
+    }
+
+    .post-content .post-image {
+        width: 100%;
+        max-width: 500px;
+        /* establece el ancho mÃ¡ximo de la imagen */
+        height: auto;
+        margin-bottom: 1rem;
+    }
+
+    .post-actions {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    .post-action {
+        margin-right: 1rem;
+        font-size: 0.8rem;
+        color: #999;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .post-action:hover {
+        color: #333;
+    }
+
+
+
+.post-box {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  width: 80%;
+  margin: 10px auto;
+}
+
+.post-box form textarea {
+  width: 100%;
+  height: 100px;
+  border: none;
+  resize: none;
+  padding: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+
+
+.post-box form button {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.post-box form button:hover {
+  background-color: #3e8e41;
+}
+
+.image-preview {
+  display: none;
+  margin-top: 10px;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 200px;
+}
+
+.pubrecientes{
+  width: 50%;
+  height: 50px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+}
+
+.like-buttoncm{
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.eliminar-btn {
+background-color: transparent;
+border: none;
+color: inherit;
+cursor: pointer;
+font-size: 1rem;
+font-weight: normal;
+text-decoration: underline;
+}
+
+.iconoimg{
+  color: rgb(0, 143, 170);
+  font-size: 2rem;
+  margin-right: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+
+}
+</style>
+
+<div class="container" >
+  <div class="pubrecientes">
+    <h2 style="color: #8c8787;font-size: medium; margin: auto;">Publicaciones de "{{per.nomEstable}}"</h2>
+  </div>
+  
+  </div>
+
+{% if pos %}
+{% if user.is_authenticated %}
+{% if request.user == per.usuario %}
+    <div class="post-box">
+        <form method="POST" enctype="multipart/form-data" id="publicacion-form">
+            {% csrf_token %}
+            <textarea name="despub" class="textarea" placeholder="Escribe tu publicación aquí"></textarea>
+            <label for="file-input"><i class="fa-solid fa-image iconoimg"></i></label>
+            <input type="file" id="file-input" accept="image/*" name="imgpub" style="display: none;">
+            <input type="hidden" value="{{user.id}}" name="userxdxd">
+            <input type="hidden" value="{{per.id}}" name="perfilxd">
+            <button type="submit" class="pboton">Publicar</button>
+            <button type="reset">Cancelar</button>
+        </form>
+        
+        <div class="image-preview">
+        <img id="preview-img" src="#" alt="Vista previa de la imagen">
+        </div>
+    </div>
+{% endif %}
+{% else %}
+{% endif %}
+
+
+<div class="container containerpost">
+
+<div class="feeds">
+
+
+    {% for po in pos %}
+    {% if po.imagen %}
+    <div class="post">
+        <div class="post-header">
+            <a href="{% url 'muestraperfil' po.perfil.id po.perfil.nomEstable %}" style="text-decoration: none;color: black;">
+              
+              {% if per.imagen %}
+              <img src="{{per.imagen.url}}" alt="Foto de perfil">
+              {% else %}
+              <img src="{{per.imagen_predeterminada.url}}" alt="Foto de perfil">
+              {% endif %}
+              
+            
+            </a>
+            <div>
+                <h3 class="post-author"><a href="{% url 'muestraperfil' po.perfil.id po.perfil.nomEstable %}" style="text-decoration: none;color: black;">{{po.perfil.nomEstable}}</a></h3>
+                <p class="post-date">{{po.create}} 
+
+                  {% if po.create == po.update %}
+                  {% else %}
+                   (Editado)
+                  {% endif %}
+
+                </p>
+            </div>
+        </div>
+
+        <div class="post-content d-flex" style="flex-direction: column;">
+            <p>{{po.body}}</p>
+
+            
+          <img src="{{po.imagen.url}}" alt="Imagen de la publicación" class="post-image" style="margin: auto;">
+            
+
+
+        </div>
+
+        <div class="post-actions">
+
+            {% if user.is_authenticated %}
+            <button class="like-buttoncm {% if request.user in po.likes.all %}btn-primary{% else %}btn-outline-primary{% endif %}" data-id="{{po.id}}" data-action="{% if request.user in po.likes.all %}dislike{% else %}like{% endif %}">
+                <span class="like-text">{% if request.user in po.likes.all %}<i class="fa-solid fa-thumbs-up"> </i> Me gusta{% else %}<i class="fa-solid fa-thumbs-up"> </i> Me gusta{% endif %}</span>
+                <span class="likes-count">{{po.likes.count}}</span>
+              </button> 
+
+            {% else %}
+
+            <div class="modal fade" id="mglike" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel" style="color: black;">AVISO</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="alert alert-warning" role="alert">
+                        Para darle 'Like' por favor inicia sesión
+                      </div> 
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                      <a href="{% url 'logear' %}" class="btn btn-primary">Iniciar sesion</a>
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+            <a href="" class="post-action like" data-bs-toggle="modal"  data-bs-target="#mglike" >
+                
+            Like
+                
+                {{po.likes.all.count}}</a>
+            {% endif %}
+            
+            
+
+
+            {% if user.is_authenticated  %}
+ 
+
+                {% if request.user != per.usuario %}
+
+                {% else %}
+
+
+
+                <div class="modal fade" id="staticBackdrop{{po.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content"  style="background-color: #454242;">
+        
+                      <div class="modal-body" >
+                        Estas seguro de borrar el comentario?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        
+                 <a href="{% url 'borrando_post' po.id  %}" id="eliminar-comentario-link"class="btn btn-primary" >Si</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+          
+                  <a  class="eliminar-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{po.id}}"  id="eliminar-comentario2" style="color: #495057; margin-left: 5px;padding: 10px 0 10px 0;"><i class="fa-solid fa-trash"></i></a> 
+                  <a href="{% url 'editar_post' po.id%}" style="padding: 7px;color: gray;"><i class="fa-regular fa-pen-to-square"></i> Editar</a>
+                {% endif %}
+            {% endif %}
+            
+        </div>
+    </div>
+    {% else %}
+    <div class="post">
+        <div class="post-header">
+            <a href="{% url 'muestraperfil' po.perfil.id po.perfil.nomEstable %}" style="text-decoration: none;color: black;"> 
+              
+              {% if per.imagen %}
+              <img src="{{per.imagen.url}}" alt="Foto de perfil">
+              {% else %}
+              <img src="{{per.imagen_predeterminada.url}}" alt="Foto de perfil">
+              {% endif %}
+            
+            </a>
+            <div>
+                <h3 class="post-author"><a href="{% url 'muestraperfil' po.perfil.id po.perfil.nomEstable %}" style="text-decoration: none;color: black;">{{po.perfil.nomEstable}}</a></h3>
+                <p class="post-date">{{po.create}} 
+
+                  {% if po.create == po.update %}
+                  {% else %}
+                   (Editado)
+                  {% endif %}
+
+                </p>
+            </div>
+        </div>
+
+        <div class="post-content d-flex" style="flex-direction: column;">
+            <p>{{po.body}}</p>
+        </div>
+
+        <div class="post-actions">
+            
+            
+            {% if user.is_authenticated %}
+            <button class="like-buttoncm {% if request.user in po.likes.all %}btn-primary{% else %}btn-outline-primary{% endif %}" data-id="{{po.id}}" data-action="{% if request.user in po.likes.all %}dislike{% else %}like{% endif %}">
+                <span class="like-text">{% if request.user in po.likes.all %}<i class="fa-solid fa-thumbs-up"> </i>Me gusta{% else %}<i class="fa-solid fa-thumbs-up"> </i>Me gusta{% endif %}</span>
+                <span class="likes-count">{{po.likes.count}}</span>
+              </button> 
+
+            {% else %}
+
+            <div class="modal fade" id="mglike" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel" style="color: black;">AVISO</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="alert alert-warning" role="alert">
+                        Para darle 'Like' por favor inicia sesión
+                      </div> 
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                      <a href="{% url 'logear' %}" class="btn btn-primary">Iniciar sesion</a>
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+            <a href="" class="post-action like" data-bs-toggle="modal"  data-bs-target="#mglike" >
+                
+            Like
+                
+                {{po.likes.all.count}}</a>
+            {% endif %}
+
+
+            {% if user.is_authenticated  %}
+            {% if request.user == po.autor %}
+
+
+            <div class="modal fade" id="staticBackdrop1{{po.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content"  style="background-color: #454242;">
+    
+                  <div class="modal-body" >
+                    Estas seguro de borrar el comentario?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    
+             <a href="{% url 'borrando_post' po.id  %}" id="eliminar-comentario-link"class="btn btn-primary" >Si</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+        
+      
+              <a class="eliminar-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop1{{po.id}}" id="eliminar-comentario" style="color: #495057; margin-left: 5px;padding: 10px 0 10px 0;" ><i class="fa-solid fa-trash"></i></a> 
+        
+              <a href="{% url 'editar_post' po.id%}" style="padding: 7px;color: gray;"><i class="fa-regular fa-pen-to-square"></i> Editar</a>
+            {% else %}
+            
+            {% endif %}
+        {% endif %}
+        </div>
+    </div>
+
+
+    {% endif %}
+
+    {% endfor %}
+
+</div>
+
+</div>
+
+
+{% else %}
+
+{% if request.user == per.usuario %}
+<div class="post-box">
+    <form method="POST" enctype="multipart/form-data" id="publicacion-form2">
+        {% csrf_token %}
+        <textarea name="despub" class="textarea" placeholder="Escribe tu publicación aquí"></textarea>
+        <label for="file-input2" ><i class="fa-solid fa-image iconoimg"></i></label>
+        <span id="file-name"></span>
+        <input type="file" id="file-input2" accept="image/*" name="imgpub" >
+        <input type="hidden" value="{{user.id}}" name="userxdxd">
+        <input type="hidden" value="{{per.id}}" name="perfilxd">
+        <button type="submit" class="pboton">Publicar</button>
+        <button type="reset">Cancelar</button>
+    </form>
+    
+    <div class="image-preview">
+    <img id="preview-img" src="#" alt="Vista previa de la imagen">
+    </div>
+</div>
+
+{% else %}
+
+<div class="containerpo">
+  <img class="logo" src="{% static 'media/triste.png' %}">
+  <h1 class="h1post">No hay publicaciones</h1>
+  <p class="ppost">Lo sentimos, en este momento no hay publicaciones disponibles.</p>
+</div>
+{% endif %}
+
+
+{% endif %}
+
+
+        <script>
+            const fileInput = document.getElementById('file-input');
+            const fileInput2 = document.getElementById('file-input2');
+        const previewImg = document.getElementById('preview-img');
+        const imagePreview = document.querySelector('.image-preview');
+
+        
+const fileName = document.getElementById('file-name');
+
+
+
+
+
+
+  $(document).on('click', '.like-buttoncm', function(e) {
+  e.preventDefault();
+  var button = $(this);
+  var postId = button.data('id');
+  var action = button.data('action');
+  $.ajax({
+    method: 'POST',
+    url: '/like_post/' + postId,
+    data: {
+      'csrfmiddlewaretoken': '{{ csrf_token }}',
+      'action': action
+    },
+    success: function(data) {
+      console.log(data);
+      button.find('.likes-count').text(data.likes_count);
+      var currentAction = button.data('action');
+      if (currentAction === 'like') {
+button.removeClass('btn-outline-primary');
+button.addClass('btn-primary');
+button.find('.like-textre').html('<i class="far fa-thumbs-up"></i>');
+button.data('action', 'dislike');
+} else {
+button.removeClass('btn-primary');
+button.addClass('btn-outline-primary');
+button.find('.like-textre').html('<i class="fas fa-thumbs-up"></i>');
+button.data('action', 'like');
+}
+    },
+    error: function(xhr, status, error) {
+      console.error(xhr.responseText);
+    }
+  });
+});
+
+fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.addEventListener('load', function() {
+            previewImg.setAttribute('src', this.result);
+            imagePreview.style.display = 'block';
+            });
+            reader.readAsDataURL(file);
+        }
+        });
+
+   
+
+const publicacionForm = document.getElementById('publicacion-form');
+    const textarea = publicacionForm.querySelector('.textarea');
+
+    publicacionForm.addEventListener('submit', function(event) {
+        if (textarea.value.trim() === '' && !fileInput.value) {
+            event.preventDefault();
+            alert('Por favor ingresa un mensaje o selecciona una imagen antes de publicar');
+        }
+    });
+
+
+
+
+        </script>
+{% endblock %}

@@ -1,0 +1,769 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block titulo %} Comentarios {% endblock %}
+{% block contenido %}
+
+<style>
+
+.containerpo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 40vh;
+            margin:auto;
+        }
+        
+        .h1post {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ppost {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo {
+            width: 250px;
+            height: 200px;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .h1post {
+                font-size: 2rem;
+            }
+            .ppost {
+                font-size: 1.2rem;
+            }
+            .logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 1rem;
+            }
+        }
+
+
+    .infopost{
+        font-size: 5rem;
+        margin: auto;
+    } 
+    
+ 
+        .post {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    
+        }
+
+        .containerrespuesta{
+          margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+            width: 92%;
+            margin-left: 8%;
+            
+            
+        }
+    
+        .feeds {
+            width: 100%;
+        }
+    
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+    
+    
+        .post-author {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+    
+        .post-date {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #999;
+        }
+    
+        .post-content p {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+  
+        .post-headerre {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+    
+    
+        .post-authorre {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+    
+        .post-datere {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #999;
+        }
+    
+        .post-contentre p {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+    
+
+        .post-actions {
+            display: flex;
+        }
+    
+        .post-action {
+            margin-right: 1rem;
+            color: #999;
+            text-decoration: none;
+            transition: color 0.2s;
+            padding: 10px 0 10px 0;
+  font-size: 12px;
+        }
+    
+        .post-action:hover {
+            color: #333;
+        }
+    
+    
+    
+    .post-box {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      width: 80%;
+      margin: 10px auto;
+    }
+    
+    .post-box form textarea {
+      width: 100%;
+      height: 100px;
+      border: none;
+      resize: none;
+      padding: 10px;
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    
+    
+    
+    .post-box form button {
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .post-box form button:hover {
+      background-color: #3e8e41;
+    }
+    
+
+    .post-boxrespuesta {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      width: 90%;
+      margin: 10px 0 10px 10%;
+    }
+    
+    .post-boxrespuesta form textarea {
+      width: 100%;
+      height: 60px;
+      border: none;
+      resize: none;
+      padding: 10px;
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    
+    
+    
+    .post-boxrespuesta form button {
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .post-boxrespuesta form button:hover {
+      background-color: #3e8e41;
+    }
+    
+
+    
+
+    .pubrecientes{
+  width: 50%;
+  height: 50px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+}
+
+.like-buttoncm{
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.eliminar-btn {
+background-color: transparent;
+border: none;
+color: inherit;
+cursor: pointer;
+font-size: 1rem;
+font-weight: normal;
+text-decoration: underline;
+}
+
+
+.responder-btn {
+    background-color: rgb(52,142,170); /* Color de fondo del botón */
+    color: #fff; /* Color del texto */
+    border: none; /* Sin borde */
+    padding: 10px 20px; /* Espacio de relleno interno */
+    border-radius: 5px; /* Borde redondeado */
+    font-size: 12px; /* Tamaño del texto */
+    transition: all 0.3s ease; /* Transición suave */
+    cursor: pointer; /* Cursor al pasar sobre el botón */
+  }
+
+  .responder-btn:hover {
+    background-color: #2980b9; /* Cambio de color al pasar sobre el botón */
+  }
+
+  .replies-btn {
+    background-color: #999; /* Color de fondo del botón */
+    color: #fff; /* Color del texto */
+    
+    padding: 10px 20px; /* Espacio de relleno interno */
+    border-radius: 5px; /* Borde redondeado */
+    font-size: 12px; /* Tamaño del texto */
+    border-color:rgb(52,142,170); ;
+    transition: all 0.3s ease; /* Transición suave */
+    cursor: pointer; /* Cursor al pasar sobre el botón */
+  }
+
+  .replies-btn:hover {
+    background-color: #2980b9; /* Cambio de color al pasar sobre el botón */
+  }
+  .contenedorrespuesta{
+    display: none;
+  }
+
+.containerreplies{
+  display: none;
+}
+
+@media (max-width:600px){
+        
+        .infopost{
+            font-size: 2rem;
+         
+        } 
+        }
+@media (max-width:600px){
+        
+  .botonescomentarios{
+          padding: 5px;
+        }
+        }
+ 
+ 
+    </style>
+
+<div class="container" >
+  <div class="pubrecientes">
+    <h2 style="color: #8c8787;font-size: medium;margin: auto;">Comentarios de "{{per.nomEstable}}"</h2>
+  </div>
+  
+  </div>
+{% if user.is_authenticated  %}
+<div class="post-box">
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="comentario_form">
+        <textarea name="descom" placeholder="Escribe tu comentario aquí" required></textarea>
+        
+        <input type="hidden" value="{{user.id}}" name="userxdxdxd">
+        <input type="hidden" value="{{per.id}}" name="perfilxdxd">
+        <button type="submit">Comentar</button>
+        <button type="reset">Cancelar</button>
+    </form>
+    
+</div>
+{% else %}
+
+<div class="modal fade" id="mginiciar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="color: black;">AVISO</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-warning" role="alert">
+            Para 'Comentar' por favor inicia sesión
+          </div> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <a href="{% url 'logear' %}" class="btn btn-primary">Iniciar sesion</a>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="post-box">
+    <form action="">
+        <textarea name="descom" placeholder="Inicia sesión para poder comentar"></textarea>
+        <button type="button" data-bs-toggle="modal"  data-bs-target="#mginiciar">Comentar</button>
+        <button type="reset">Cancelar</button>
+    </form>
+    
+</div>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% for comentario in com %}
+
+{% if comentario.parent_comment == None%}
+
+
+
+
+<div class="post container" id="comentario-{{comentario.id}}">
+    <div class="post-header">
+        
+        <div>
+            <h3 class="post-author">{{comentario.autor}} </h3>
+            <p class="post-date">{{comentario.create}}
+              {% if comentario.create == comentario.update %}
+              {% else %}
+               (Editado)
+              {% endif %}
+              </p>
+        </div>
+    </div>
+
+    <div class="post-content d-flex" style="flex-direction: column;">
+        <p>{{comentario.body}}</p>
+    </div>
+
+    <div class="post-actions"> 
+    
+        {% if user.is_authenticated %}
+
+        <button class="like-buttoncm botonescomentarios {% if request.user in comentario.likes.all %}btn-primary{% else %}btn-outline-primary{% endif %}" data-id="{{comentario.id}}" data-action="{% if request.user in comentario.likes.all %}dislike{% else %}like{% endif %}">
+          <span class="like-text">{% if request.user in comentario.likes.all %}<i class="fa-solid fa-thumbs-up"> </i>Me gusta{% else %}<i class="fa-solid fa-thumbs-up" style="margin-right: 4px;"> </i>Me gusta{% endif %}</span>
+          <span class="likes-count" ><strong>{{comentario.likes.count}}</strong></span>
+        </button> 
+
+        <button class="responder-btn responder-btn-user botonescomentarios" style="margin-left: 5px;" id="btn-responder"><i class="fa-regular fa-comment" style="margin-right: 4px;"></i>Responder</button>
+
+
+        {% if comentario.replies.all %}
+        <button class="replies-btn btn-replies-user botonescomentarios" style="margin-left: 5px;" id="btn-replies"><i class="fa-solid fa-eye" style="margin-right: 4px;"></i >Ver {{comentario.num_respuestas}} respuestas </button>
+
+          {% else %}
+          <button class="replies-btn btn-replies-user botonescomentarios" style="margin-left: 5px;" id="btn-replies"><i class="fa-solid fa-eye" style="margin-right: 4px;"></i >Sin respuestas </button>
+        {% endif %}
+
+        {% else %}
+
+        <div class="modal fade" id="mglike" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel" style="color: black;">AVISO</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="alert alert-warning" role="alert">
+                    Para darle 'Me gusta' o Responder por favor inicia sesión
+                  </div> 
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <a href="{% url 'logear' %}" class="btn btn-primary">Iniciar sesion</a>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <a href="" class="post-action like" data-bs-toggle="modal"  data-bs-target="#mglike" >
+            
+          <i class="fa-solid fa-thumbs-up"> </i> Me gusta
+                
+            {{comentario.likes.all.count}} </a>
+            <button class="responder-btn responder-btn-logout botonescomentarios" data-bs-toggle="modal"  data-bs-target="#mglike" style="margin-left: 5px;"><i class="fa-regular fa-comment" style="margin-right: 4px;" ></i>Responder</button>
+
+            
+            {% if comentario.replies.all %}
+            <button class="replies-btn btn-replies-user botonescomentarios" style="margin-left: 5px;" id="btn-replies"><i class="fa-solid fa-eye" style="margin-right: 4px;"></i >Ver {{comentario.num_respuestas}} respuestas </button>
+    
+              {% else %}
+              <button class="replies-btn btn-replies-user botonescomentarios" style="margin-left: 5px;" id="btn-replies"><i class="fa-solid fa-eye" style="margin-right: 4px;"></i >Sin respuestas </button>
+            {% endif %}
+            
+        {% endif %}
+
+
+        {% if user.is_authenticated  %}
+        {% if request.user == comentario.autor %}
+
+
+
+
+        <div class="modal" id="editarcomentario{{comentario.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 style="color:black;" class="modal-title">Editar comentario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </a>
+              </div>
+              <div class="modal-body" style="color:black;">
+
+                <div class="container">
+
+      <form id="edit-comment-form" method="post">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="edit-comment-body">Comentario:</label>
+            <textarea class="form-control" id="edit-comment-body" name="descomentario" rows="5" >{{comentario.body}}</textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" name="comentario_id" id="comentario_id" value="{{comentario.id}}">
+          <input type="hidden" value="{{user.id}}" name="userxdxdxd">
+          <input type="hidden"  name="edicion_form">
+          <input type="hidden" value="{{per.id}}" name="perfilxdxd">
+          
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+                
+              </div>
+
+              </div>
+              <div class="modal-footer">
+        
+                
+               
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="eliminar-btn .editar-btn" data-bs-toggle="modal" data-bs-target="#editarcomentario{{comentario.id}}" data-id="{{comentario.id}}" ><i class="fa-regular fa-pen-to-square"></i> </button>
+
+
+        <div class="modal fade" id="staticBackdrop{{comentario.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content"  style="background-color: #454242;">
+
+              <div class="modal-body" >
+                Estas seguro de borrar el comentario?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                
+                <a href="{%url 'borrando_com' comentario.id %}" id="eliminar-comentario-link"class="btn btn-primary" >Si</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <a  class="eliminar-btn" id="eliminar-comentario" style="color: #495057; margin-left: 5px;padding: 10px 0 10px 0;" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{comentario.id}}"><i class="fa-solid fa-trash"></i>Eliminar</a>
+        {% else %}
+        
+        {% endif %}
+
+        
+
+    {% endif %}
+    
+    {% if comentario.negocio.usuario in comentario.likes.all %}
+    {% if comentario.negocio.usuario != comentario.autor %}
+    <span style="padding-left: 5px;font-size: 15px;color: #495057;">   Al propietario le ha gustado este comentario</span>
+    {% endif %}
+    
+    {% endif %}
+    </div>
+</div>
+
+
+{% if user.is_authenticated%}
+<div class="container contenedorrespuesta" >
+  <div class="post-boxrespuesta">
+    <form method="POST" >
+      {% csrf_token %}
+      <input type="hidden"  name="respuesta_form">
+        <textarea name="desres" placeholder="Escribe tu respuesta aquí" required></textarea>
+        <input type="hidden" value="{{user.id}}" name="userxdxdxd">
+        
+        <input type="hidden" value="{{per.id}}" name="perfilxdxd">
+
+        <input type="hidden" name="parent_comment_id" value="{{comentario.id}}">
+        <button type="submit">Responder </button>
+        <button type="reset">Cancelar</button>
+    </form>
+    
+  </div>
+  </div>
+{% endif %}
+
+
+<div class="container containerreplies" id="containerreplies">
+  
+        {% for child_coment in comentario.replies.all %}
+        
+         
+            <div class="containerrespuesta"  >
+
+              <div class="post-headerre">
+                    
+                <div>
+                    <h3 class="post-authorre">{{child_coment.autor}}</h3>
+                    <p class="post-datere">{{child_coment.create}}
+                      {% if child_coment.create == child_coment.update %}
+                      {% else %}
+                       (Editado)
+                      {% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="post-contentre d-flex" style="flex-direction: column;">
+                <p>{{child_coment.body}}</p>
+                {% if request.user == child_coment.autor %}
+
+
+                <div class="modal fade" id="staticBackdrop1{{child_coment.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content"  style="background-color: #454242;">
+        
+                      <div class="modal-body" >
+                        Estas seguro de borrar el comentario?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        
+                 <a href="{% url 'borrando_com' child_coment.id%}" id="eliminar-comentario-link"class="btn btn-primary" >Si</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+         <a  class="eliminar-btn"  data-bs-toggle="modal" data-bs-target="#staticBackdrop1{{child_coment.id}}" id="eliminar-comentario2" style="color: #495057;margin-top: -15px;" >      <i class="fa-solid fa-trash"></i> Eliminar</a>
+
+      
+         <a href="{% url 'editar_respuesta' child_coment.id %}" class="eliminar-btn" ><i class="fa-regular fa-pen-to-square"></i> Editar</a>
+      
+
+ 
+                {% endif %}
+            </div>
+
+
+              
+            </div>
+
+        
+
+
+          {% endfor %}
+        </div>
+
+{% endif %}
+
+{% endfor %}
+
+{% if com%}
+
+{% else %}
+<div class="containerpo">
+  <img class="logo" src="{% static 'media/triste.png' %}">
+  <h1 class="h1post">No hay comentarios</h1>
+  <p class="ppost">Lo sentimos, en este momento no hay comentarios disponibles.</p>
+</div>
+
+{% endif %}
+
+
+  
+
+
+
+<script>
+
+const btnResponder = document.querySelectorAll(".responder-btn-user");
+const formulario = document.querySelectorAll(".contenedorrespuesta");
+const btnreplies = document.querySelectorAll(".btn-replies-user");
+const replies = document.querySelectorAll(".containerreplies");
+let formularioVisible = false;
+let replieVisible = false;
+
+
+
+
+  $(document).ready(function() {
+    $('#editarcomentario').on('show.bs.modal', function(e) {
+      var comentario_id = $(e.relatedTarget).data('id');
+      $(this).find('input[name="comentario_id"]').val(comentario_id);
+    });
+  });
+
+
+
+
+  $(document).on('click', '.like-buttoncm', function(e) {
+  e.preventDefault();
+  var button = $(this);
+  var postId = button.data('id');
+  var action = button.data('action');
+  $.ajax({
+    method: 'POST',
+    url: '/like_comentarioperfil/' + postId,
+    data: {
+      'csrfmiddlewaretoken': '{{ csrf_token }}',
+      'action': action
+    },
+    success: function(data) {
+      console.log(data);
+      button.find('.likes-count').text(data.likes_count);
+      var currentAction = button.data('action');
+      if (currentAction === 'like') {
+button.removeClass('btn-outline-primary');
+button.addClass('btn-primary');
+button.find('.like-textre').html('<i class="far fa-thumbs-up"></i>');
+button.data('action', 'dislike');
+} else {
+button.removeClass('btn-primary');
+button.addClass('btn-outline-primary');
+button.find('.like-textre').html('<i class="fas fa-thumbs-up"></i>');
+button.data('action', 'like');
+}
+    },
+    error: function(xhr, status, error) {
+      console.error(xhr.responseText);
+    }
+  });
+});
+
+
+
+
+btnResponder.forEach(function(boton, index) {
+  // Obtener el formulario correspondiente a este botón
+  const formularioActual = formulario[index];
+
+  // Variable de control para el estado del formulario
+  let formularioVisibleActual = false;
+
+  // Agregar un evento "click" al botón
+  boton.addEventListener("click", function() {
+    // Si el formulario está visible, ocultarlo
+    if (formularioVisibleActual) {
+      formularioActual.style.display = "none";
+      formularioVisibleActual = false;
+    } else { // Si el formulario no está visible, mostrarlo
+      formularioActual.style.display = "block";
+      formularioVisibleActual = true;
+    }
+
+    console.log('funcionaresponder')
+  });
+});
+
+
+
+// Agregar un evento "click" a cada botón de "Replies"
+btnreplies.forEach(function(boton, index) {
+  // Obtener el contenedor de replies correspondiente a este botón
+  const repliesActual = replies[index];
+
+  // Variable de control para el estado del contenedor de replies
+  let replieVisibleActual = false;
+
+  // Agregar un evento "click" al botón
+  boton.addEventListener("click", function() {
+    // Si el contenedor de replies está visible, ocultarlo
+    if (replieVisibleActual) {
+      repliesActual.style.display = "none";
+      replieVisibleActual = false;
+    } else { // Si el contenedor de replies no está visible, mostrarlo
+      repliesActual.style.display = "block";
+      replieVisibleActual = true;
+    }
+
+    console.log('funcionareplies')
+  });
+});
+
+
+
+</script>
+
+
+{% endblock %}

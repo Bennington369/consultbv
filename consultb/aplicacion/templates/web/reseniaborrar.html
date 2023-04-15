@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% block titulo %}Reseña {% endblock %}
+{% block contenido %}
+<div class="modal" tabindex="-1" style="display:block; position:relative;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 style="color:black;" class="modal-title">Borrado de reseña</h5>
+          <a href="{% url 'index' %}" class="btn-close" aria-label="Close">
+          </a>
+        </div>
+        <div class="modal-body">
+          <p style="color:black;">¿Esta seguro de borrar la reseña <span class="fw-bold text-info">{{ re.body }}</span>  ?</p>
+        </div>
+        <div class="modal-footer">
+  
+          <a href="{% url 'borrando_res' re.id  %}" class="btn btn-success">SI</a>
+          <a href="{{request.META.HTTP_REFERER}}" class="btn btn-warning">NO</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+
+{% block titulo %} Editar Publicacion {% endblock %}
+{% block contenido %}
+
+<style>
+        .contenedoreditpost{
+        background-color: white;
+        width: 60vw;
+        
+        margin-top: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .formeditpost{
+        padding: 10px;
+       
+        
+    }
+.xxx{
+    position: relative;
+}
+.iconox {
+  position: absolute; /* Establece la posición absoluta */
+  top: 35px; /* Ajusta la distancia superior */
+  right: 15px; /* Ajusta la distancia derecha */
+  transform: translate(-50%, -50%); /* Centra el icono */
+  z-index: 18; /* Asegura que el icono esté por encima de la imagen */
+  font-size: 2rem;
+  
+
+}
+
+
+
+
+    @media (max-width:500px){
+        
+        .contenedoreditpost{
+        background-color: white;
+        width: 85vw;
+        
+        margin-top: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+        }
+
+        .botoneseditpost{
+            background-color: #e3e3e3;
+
+            border-radius: 5px;
+        }
+
+        .label {
+  background-color: rgb(0, 143, 170);
+  border-radius: 5px;
+  margin: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: medium;
+cursor: pointer;
+  color: #fff;
+
+}
+
+
+</style>
+
+
+
+<div class="container contenedoreditpost">
+    <h3 style="margin-top: 10px;">Editar Publicacion</h3>
+<hr>
+    <form method="POST" enctype="multipart/form-data" class="formeditpost">
+        {% csrf_token %}
+
+       {% if post.body %}
+       <textarea name="body" class="form-control" style="border: none;height: 100px;" placeholder="Escribe tu publicación aquí">{{ post.body }} </textarea>
+       {% else %}
+       <textarea name="body" class="form-control" style="border: none;" placeholder="Escribe tu publicación aquí"></textarea>
+       {% endif %}
+        
+
+        {% if post.imagen %}
+        
+        <div class="xxx imagen-container">
+            <img id="imgya" src="{{ post.imagen.url }}" class="form-control" >
+            <i class="fa-solid fa-circle-xmark iconox"  style="cursor: pointer;" onclick="eliminarImagen()"></i>
+        </div>
+        {% else %}
+        <div class="xxx imagen-container">
+            
+            <i class="fa-solid fa-circle-xmark iconox"  style="cursor: pointer; display: none;" onclick="eliminarImagen()"></i>
+        </div>
+        {% endif %}
+
+        <img id="imgpre" src="#" width="200" style="display:none;" class="form-control">
+
+        
+        
+        {% if post.imagen %}
+        <label for="file-input" class="label">CAMBIAR IMAGEN</label>
+        {% else %}
+        <label for="file-input" class="label" >AGREGAR IMAGEN</label>
+        {% endif %}
+       
+        <input type="file" class="form-control" id="file-input" accept="image/*" onchange="previewImage(event)" name="imagen" style="display: none;">
+
+        <input type="hidden" id="id_delete_image" name="delete_image" value="false">
+
+        <button type="submit" class="botoneseditpost"><i class="fa-solid fa-circle-check" style="color: green;"></i> Listo</button>
+        <button class="botoneseditpost"><i class="fa-solid fa-circle-xmark"  style="color: red;"></i> Cancelar</button>
+        
+    </form>
+</div>
+
+<script>
+
+const imagenContainer = document.querySelector('.imagen-container');
+  const iconoX = document.querySelector('.icono');
+  
+
+  // Verificar si la imagen está visible
+  const imagenVisible = imagenContainer && imagenContainer.offsetWidth > 0 && imagenContainer.offsetHeight > 0;
+
+  
+  document.querySelector('.botoneseditpost:last-of-type').addEventListener('click', function(e) {
+  e.preventDefault();
+  window.history.back();
+});
+  // Ocultar el icono X si la imagen no está visible
+
+
+
+
+  function previewImage(event) {
+  const input = event.target;
+  const imgya = document.getElementById('imgya');
+  const imgpre = document.getElementById('imgpre');
+  const iconox = document.querySelector('.iconox');
+
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      if (imgya) {
+        imgya.style.display = 'none'; // Ocultar la imagen original
+      }
+
+      if (imgpre) {
+        imgpre.style.display = 'block';
+        imgpre.src = e.target.result;
+        if (iconox) {
+          iconox.style.display = 'block'; // Mostrar el ícono X
+        }
+      }
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+
+function eliminarImagen() {
+  const imgya = document.getElementById('imgya');
+  const imgpre = document.getElementById('imgpre');
+  const iconox = document.querySelector('.iconox');
+
+  if (imgya) {
+    imgya.style.display = 'none';
+  }
+  if (imgpre) {
+    imgpre.style.display = 'none';
+    if (iconox) {
+      iconox.style.display = 'none'; // Ocultar el ícono X
+    }
+  }
+
+  document.getElementById('id_delete_image').value = 'true';
+  document.getElementById('file-input').value = null;
+  if (imgya) {
+    imgya.src = '';
+  }
+}
+
+</script>
+
+
+
+{% endblock %}
